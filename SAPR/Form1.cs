@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace WeightPlatePlugin
 {
-    public partial class Form1 : Form
+    public partial class WeightPlatePlagin : Form
     {
-        public Form1()
+        public WeightPlatePlagin()
         {
             InitializeComponent();
         }
