@@ -78,27 +78,46 @@ namespace WeightPlatePlugin.Wrapper
             _wrapper.DrawCircle(0.0, 0.0, radius);
             _wrapper.FinishSketch(sketch);
 
-            // Сквозной вырез по всему телу
-            _wrapper.CutByExtrusionThroughAll(sketch, forward: true);
+            // "Сквозной" вырез через весь диск:
+            // глубина берётся из толщины T с запасом
+            _wrapper.CutByExtrusionThroughAll(
+                sketch,
+                _parameters.ThicknessT,
+                forward: false);
         }
 
         /// <summary>
-        /// Формирует внутреннее углубление радиуса L и глубины G.
+        /// Формирует внутренние углубления радиуса L и глубины G
+        /// на обеих сторонах диска.
         /// </summary>
         public void CutInnerRecess()
         {
-            // Эскиз на плоскости XOY:
-            // вырезаем цилиндр на глубину G, радиус L.
-            var sketch = _wrapper.CreateSketchOnPlane("XOY");
-
             var radius = _parameters.RecessRadiusL;
+            var depth = _parameters.RecessDepthG;
+            var thickness = _parameters.ThicknessT;
 
+            if (depth <= 0)
+                throw new ArgumentException("Глубина углубления должна быть > 0.", nameof(_parameters.RecessDepthG));
+
+            if (depth >= thickness)
+                throw new ArgumentException("Глубина углубления G должна быть меньше толщины диска T.");
+
+            // 1) Углубление со стороны базовой плоскости XOY
+            var sketchBottom = _wrapper.CreateSketchOnPlane("XOY");
             _wrapper.DrawCircle(0.0, 0.0, radius);
-            _wrapper.FinishSketch(sketch);
+            _wrapper.FinishSketch(sketchBottom);
+            _wrapper.CutByExtrusionDepth(sketchBottom, depth, forward: false);
 
-            // Вырез до глубины G в прямом направлении
-            _wrapper.CutByExtrusionDepth(sketch, _parameters.RecessDepthG, forward: true);
+            // 2) Углубление с противоположной стороны:
+            // плоскость на расстоянии (T - G) от XOY, т.е. внутри тела
+            var offset = thickness - depth;
+
+            var sketchTop = _wrapper.CreateSketchOnOffsetPlaneFromXOY(thickness);
+            _wrapper.DrawCircle(0.0, 0.0, radius);
+            _wrapper.FinishSketch(sketchTop);
+            _wrapper.CutByExtrusionDepth(sketchTop, depth, forward: true);
         }
+
 
         /// <summary>
         /// Применяет фаски/скругления радиуса R.

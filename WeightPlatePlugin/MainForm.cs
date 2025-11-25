@@ -41,9 +41,6 @@ namespace WeightPlatePlugin
                 pair.Value.Validating += textBox_Validating;
             }
 
-            buildButton.Click += buildButton_Click;
-            resetButton.Click += resetButton_Click;
-
             _errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
 
             ResetToDefaults();
