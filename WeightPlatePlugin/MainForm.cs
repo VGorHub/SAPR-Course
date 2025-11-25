@@ -124,10 +124,11 @@ namespace WeightPlatePlugin
                 _builder.Build(_parameters);
 
                 MessageBox.Show(
-                    "Параметры успешно провалидированы. Построение модели будет завершено после реализации CAD-обёртки.",
-                    "Проверка завершена",
+                    "Модель успешно построена в КОМПАС-3D.",
+                    "Готово",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
+
             }
             catch (ValidationException ex)
             {
