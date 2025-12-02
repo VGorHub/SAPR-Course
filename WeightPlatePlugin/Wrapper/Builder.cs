@@ -8,19 +8,32 @@ namespace WeightPlatePlugin.Wrapper
     /// </summary>
     public class Builder
     {
-        //TODO: XML
+        //TODO: XML +
+        /// <summary>
+        /// Обёртка над Kompas 3D API.
+        /// </summary>
         private readonly Wrapper _wrapper;
 
-        //TODO: XML
+        //TODO: XML +
+        /// <summary>
+        /// Текущие параметры модели.
+        /// </summary>
         private Parameters _parameters = null!;
 
-        //TODO: XML
+        //TODO: XML +
+        /// <summary>
+        /// Создаёт новый объект построителя модели.
+        /// </summary>
+        /// <param name="wrapper">Обёртка над Kompas 3D API.</param>
         public Builder(Wrapper wrapper)
         {
             _wrapper = wrapper ?? throw new ArgumentNullException(nameof(wrapper));
         }
 
-        //TODO: XML
+        //TODO: XML +
+        /// <summary>
+        /// Параметры, по которым была построена текущая модель.
+        /// </summary>
         public Parameters CurrentParameters => _parameters;
 
         /// <summary>
@@ -101,15 +114,23 @@ namespace WeightPlatePlugin.Wrapper
             var depth = _parameters.RecessDepthG;
             var thickness = _parameters.ThicknessT;
 
-            //TODO: refactor
+            //TODO: refactor +
             if (depth <= 0)
-                //TODO: RSDN
-                throw new ArgumentException("Глубина углубления должна быть > 0.", nameof(_parameters.RecessDepthG));
+            {
+                //TODO: RSDN +
+                throw new ArgumentOutOfRangeException(
+                    nameof(depth),
+                    "Глубина углубления должна быть > 0.");
+            }
 
-            //TODO: refactor
+            //TODO: refactor +
             if (depth >= thickness)
-                //TODO: RSDN
-                throw new ArgumentException("Глубина углубления G должна быть меньше толщины диска T.");
+            {
+                //TODO: RSDN +
+                throw new ArgumentOutOfRangeException(
+                    nameof(depth),
+                    "Глубина углубления G должна быть меньше толщины диска T.");
+            }
 
             // 1) Углубление со стороны базовой плоскости XOY
             var sketchBottom = _wrapper.CreateSketchOnPlane("XOY");
@@ -127,7 +148,6 @@ namespace WeightPlatePlugin.Wrapper
             _wrapper.CutByExtrusionDepth(sketchTop, depth, forward: true);
         }
 
-
         /// <summary>
         /// Применяет фаски/скругления радиуса R.
         /// Пока без привязки к конкретным рёбрам — оставлено под расширение.
@@ -137,7 +157,11 @@ namespace WeightPlatePlugin.Wrapper
             _wrapper.ApplyChamferOrFillet(_parameters.ChamferRadiusR, null);
         }
 
-        //TODO: XML
+        //TODO: XML +
+        /// <summary>
+        /// Сохраняет построенную модель в файл.
+        /// </summary>
+        /// <param name="path">Путь к файлу модели.</param>
         public void SaveModel(string path)
         {
             if (string.IsNullOrWhiteSpace(path))

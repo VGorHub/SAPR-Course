@@ -40,16 +40,18 @@ namespace WeightPlatePlugin.Wrapper
                 return;
             }
 
-            //TODO: RSDN
+            //TODO: RSDN +
             var t = Type.GetTypeFromProgID("KOMPAS.Application.5");
             if (t == null)
             {
-                throw new InvalidOperationException("Не найден ProgID KOMPAS.Application.5");
+                throw new InvalidOperationException(
+                    "Не найден ProgID KOMPAS.Application.5");
             }
 
-            //TODO: RSDN
+            //TODO: RSDN +
             _kompas = (KompasObject)Activator.CreateInstance(t)
-                      ?? throw new InvalidOperationException("Не удалось создать KompasObject.");
+                      ?? throw new InvalidOperationException(
+                          "Не удалось создать KompasObject.");
 
             _kompas.Visible = true;
             _kompas.ActivateControllerAPI();
@@ -62,18 +64,21 @@ namespace WeightPlatePlugin.Wrapper
         {
             if (_kompas == null)
             {
-                //TODO: RSDN
-                throw new InvalidOperationException("Kompas не инициализирован. Сначала вызови AttachOrRunCAD().");
+                //TODO: RSDN +
+                throw new InvalidOperationException(
+                    "Kompas не инициализирован. Сначала вызови AttachOrRunCAD().");
             }
 
-            //TODO: RSDN
+            //TODO: RSDN +
             _doc3D = (ksDocument3D)_kompas.Document3D()
-                     ?? throw new InvalidOperationException("Не удалось получить ksDocument3D.");
+                     ?? throw new InvalidOperationException(
+                         "Не удалось получить ksDocument3D.");
 
             _doc3D.Create();
 
             _topPart = (ksPart)_doc3D.GetPart((short)Part_Type.pTop_Part)
-                       ?? throw new InvalidOperationException("Не удалось получить верхнюю деталь.");
+                       ?? throw new InvalidOperationException(
+                           "Не удалось получить верхнюю деталь.");
         }
 
         /// <summary>
@@ -97,8 +102,9 @@ namespace WeightPlatePlugin.Wrapper
         {
             if (_topPart == null)
             {
-                //TODO: RSDN
-                throw new InvalidOperationException("Часть не инициализирована. Вызови CreateDocument3D().");
+                //TODO: RSDN +
+                throw new InvalidOperationException(
+                    "Часть не инициализирована. Вызови CreateDocument3D().");
             }
 
             short planeType = plane?.ToUpperInvariant() switch
@@ -109,13 +115,16 @@ namespace WeightPlatePlugin.Wrapper
                 _ => (short)Obj3dType.o3d_planeXOY
             };
 
-            //TODO: RSDN
+            //TODO: RSDN +
             var basePlane = (ksEntity)_topPart.GetDefaultEntity(planeType)
-                           ?? throw new InvalidOperationException("Не удалось получить базовую плоскость.");
+                           ?? throw new InvalidOperationException(
+                               "Не удалось получить базовую плоскость.");
 
-            //TODO: RSDN
-            var sketchEntity = (ksEntity)_topPart.NewEntity((short)Obj3dType.o3d_sketch)
-                               ?? throw new InvalidOperationException("Не удалось создать сущность o3d_sketch.");
+            //TODO: RSDN +
+            var sketchEntity = (ksEntity)_topPart
+                                .NewEntity((short)Obj3dType.o3d_sketch)
+                               ?? throw new InvalidOperationException(
+                                   "Не удалось создать сущность o3d_sketch.");
 
             var sketchDef = (ksSketchDefinition)sketchEntity.GetDefinition();
             sketchDef.SetPlane(basePlane);
@@ -133,8 +142,9 @@ namespace WeightPlatePlugin.Wrapper
         {
             if (_current2dDoc == null)
             {
-                //TODO: RSDN
-                throw new InvalidOperationException("Нет активного 2D-эскиза. Сначала вызови CreateSketchOnPlane().");
+                //TODO: RSDN +
+                throw new InvalidOperationException("Нет активного 2D-эскиза." +
+                    " Сначала вызови CreateSketchOnPlane().");
             }
 
             _current2dDoc.ksCircle(xc, yc, radius, 1);
@@ -148,8 +158,9 @@ namespace WeightPlatePlugin.Wrapper
             if (sketch is not ksEntity sketchEntity)
             {
 
-                //TODO: RSDN
-                throw new ArgumentException("Ожидался объект эскиза (ksEntity).", nameof(sketch));
+                //TODO: RSDN +
+                throw new ArgumentException("Ожидался объект эскиза (ksEntity).", 
+                    nameof(sketch));
             }
 
             var sketchDef = (ksSketchDefinition)sketchEntity.GetDefinition();
@@ -166,19 +177,22 @@ namespace WeightPlatePlugin.Wrapper
         /// <param name="thickness">Толщина диска T (глубина выдавливания).</param>
         public void BossByRevolve(object sketch, string axis, double thickness)
         {
-            //TODO: RSDN
+            //TODO: RSDN +
             if (_topPart == null)
-                //TODO: refactor
-                throw new InvalidOperationException("Часть не инициализирована. Вызови CreateDocument3D().");
+                //TODO: refactor ?
+                throw new InvalidOperationException(
+                    "Часть не инициализирована. Вызови CreateDocument3D().");
 
-            //TODO: RSDN
+            //TODO: RSDN +
             if (sketch is not ksEntity sketchEntity)
-                //TODO: refactor
-                throw new ArgumentException("Ожидался объект эскиза (ksEntity).", nameof(sketch));
+                //TODO: refactor ?
+                throw new ArgumentException(
+                    "Ожидался объект эскиза (ksEntity).", nameof(sketch));
 
             var bossEntity =
                 (ksEntity)_topPart.NewEntity((short)Obj3dType.o3d_bossExtrusion)
-                ?? throw new InvalidOperationException("Не удалось создать сущность o3d_bossExtrusion.");
+                ?? throw new InvalidOperationException(
+                    "Не удалось создать сущность o3d_bossExtrusion.");
 
             var bossDef = (ksBossExtrusionDefinition)bossEntity.GetDefinition();
             var extParam = (ksExtrusionParam)bossDef.ExtrusionParam();
@@ -205,9 +219,10 @@ namespace WeightPlatePlugin.Wrapper
         {
 
             if (bodyThickness <= 0)
-                //TODO: refactor
-                //TODO: RSDN
-                throw new ArgumentOutOfRangeException(nameof(bodyThickness), "Толщина тела должна быть > 0.");
+                //TODO: refactor ?
+                //TODO: RSDN +
+                throw new ArgumentOutOfRangeException(nameof(bodyThickness),
+                    "Толщина тела должна быть > 0.");
 
             // делаем небольшой запас, чтобы гарантированно пройти насквозь
             var depth = bodyThickness * 1.2;
@@ -222,14 +237,17 @@ namespace WeightPlatePlugin.Wrapper
         public void CutByExtrusionDepth(object sketch, double depth, bool forward)
         {
             if (_topPart == null)
-                throw new InvalidOperationException("Часть не инициализирована. Вызови CreateDocument3D().");
+                throw new InvalidOperationException(
+                    "Часть не инициализирована. Вызови CreateDocument3D().");
 
             if (sketch is not ksEntity sketchEntity)
-                throw new ArgumentException("Ожидался объект эскиза (ksEntity).", nameof(sketch));
+                throw new ArgumentException("Ожидался объект эскиза (ksEntity).",
+                    nameof(sketch));
 
             var cutEntity =
                 (ksEntity)_topPart.NewEntity((short)Obj3dType.o3d_cutExtrusion)
-                ?? throw new InvalidOperationException("Не удалось создать сущность o3d_cutExtrusion.");
+                ?? throw new InvalidOperationException(
+                    "Не удалось создать сущность o3d_cutExtrusion.");
 
             var cutDef = (ksCutExtrusionDefinition)cutEntity.GetDefinition();
 
@@ -268,7 +286,8 @@ namespace WeightPlatePlugin.Wrapper
         public void ApplyChamferOrFillet(double radius, object? edges)
         {
             if (_topPart == null)
-                throw new InvalidOperationException("Часть не инициализирована. Вызови CreateDocument3D().");
+                throw new InvalidOperationException(
+                    "Часть не инициализирована. Вызови CreateDocument3D().");
 
             if (radius <= 0)
                 return;
@@ -276,7 +295,8 @@ namespace WeightPlatePlugin.Wrapper
             // Создаём операцию скругления
             var filletEntity =
                 (ksEntity)_topPart.NewEntity((short)Obj3dType.o3d_fillet)
-                ?? throw new InvalidOperationException("Не удалось создать сущность o3d_fillet.");
+                ?? throw new InvalidOperationException(
+                    "Не удалось создать сущность o3d_fillet.");
 
             var filletDef = (ksFilletDefinition)filletEntity.GetDefinition();
 
@@ -329,12 +349,14 @@ namespace WeightPlatePlugin.Wrapper
         {
             if (_doc3D == null)
             {
-                throw new InvalidOperationException("Документ не создан. Вызови CreateDocument3D().");
+                throw new InvalidOperationException(
+                    "Документ не создан. Вызови CreateDocument3D().");
             }
 
             if (string.IsNullOrWhiteSpace(path))
             {
-                throw new ArgumentException("Путь к файлу не задан.", nameof(path));
+                throw new ArgumentException(
+                    "Путь к файлу не задан.", nameof(path));
             }
 
             _doc3D.SaveAs(path);
@@ -346,14 +368,17 @@ namespace WeightPlatePlugin.Wrapper
         public object CreateSketchOnOffsetPlaneFromXOY(double offset)
         {
             if (_topPart == null)
-                throw new InvalidOperationException("Часть не инициализирована. Вызови CreateDocument3D().");
+                throw new InvalidOperationException(
+                    "Часть не инициализирована. Вызови CreateDocument3D().");
 
             var basePlane = (ksEntity)_topPart.GetDefaultEntity((short)Obj3dType.o3d_planeXOY)
-                           ?? throw new InvalidOperationException("Не удалось получить базовую плоскость XOY.");
+                           ?? throw new InvalidOperationException(
+                               "Не удалось получить базовую плоскость XOY.");
 
             var offsetPlaneEntity =
                 (ksEntity)_topPart.NewEntity((short)Obj3dType.o3d_planeOffset)
-                ?? throw new InvalidOperationException("Не удалось создать сущность o3d_planeOffset.");
+                ?? throw new InvalidOperationException(
+                    "Не удалось создать сущность o3d_planeOffset.");
 
             var offsetDef = (ksPlaneOffsetDefinition)offsetPlaneEntity.GetDefinition();
             offsetDef.SetPlane(basePlane);
@@ -364,7 +389,8 @@ namespace WeightPlatePlugin.Wrapper
 
             var sketchEntity =
                 (ksEntity)_topPart.NewEntity((short)Obj3dType.o3d_sketch)
-                ?? throw new InvalidOperationException("Не удалось создать сущность o3d_sketch.");
+                ?? throw new InvalidOperationException(
+                    "Не удалось создать сущность o3d_sketch.");
 
             var sketchDef = (ksSketchDefinition)sketchEntity.GetDefinition();
             sketchDef.SetPlane(offsetPlaneEntity);

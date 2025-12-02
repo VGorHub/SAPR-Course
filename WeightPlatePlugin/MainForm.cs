@@ -14,7 +14,10 @@ namespace WeightPlatePlugin
     /// </summary>
     public partial class WeightPlatePlugin : Form
     {
-        //TODO: XML
+        //TODO: XML +
+        /// <summary>
+        /// Провайдер ошибок для подсветки полей и вывода подсказок.
+        /// </summary>
         private readonly ErrorProvider _errorProvider = new ErrorProvider();
         private readonly Dictionary<ParameterId, TextBox> _parameterInputs;
         private readonly Parameters _parameters = new Parameters();
@@ -170,8 +173,11 @@ namespace WeightPlatePlugin
                     _parameters.SetRecessDepthG(value);
                     break;
                 default:
-                    //TODO: RSDN
-                    throw new ArgumentOutOfRangeException(nameof(parameterId), parameterId, "Неизвестный параметр.");
+                    //TODO: RSDN +
+                    throw new ArgumentOutOfRangeException(
+                        nameof(parameterId), 
+                        parameterId, 
+                        "Неизвестный параметр.");
             }
         }
 
@@ -189,14 +195,20 @@ namespace WeightPlatePlugin
             }
         }
 
-        //TODO: XML
+        //TODO: XML +
+        /// <summary>
+        /// Подсвечивает текстовое поле и устанавливает текст ошибки.
+        /// </summary>
         private void SetTextBoxError(TextBox textBox, string message)
         {
             textBox.BackColor = Color.LightCoral;
             _errorProvider.SetError(textBox, message);
         }
 
-        //TODO: XML
+        //TODO: XML +
+        /// <summary>
+        /// Очищает все ошибки и сбрасывает подсветку полей.
+        /// </summary>
         private void ClearAllErrors()
         {
             foreach (var textBox in _parameterInputs.Values)
@@ -235,9 +247,17 @@ namespace WeightPlatePlugin
         {
             var styles = NumberStyles.Float | NumberStyles.AllowThousands;
 
-            //TODO: RSDN
-            return double.TryParse(text, styles, CultureInfo.CurrentCulture, out value) ||
-                   double.TryParse(text, styles, CultureInfo.InvariantCulture, out value);
+            //TODO: RSDN +
+            return double.TryParse(
+                text, 
+                styles, 
+                CultureInfo.CurrentCulture, 
+                out value) ||
+                   double.TryParse(
+                       text, 
+                       styles, 
+                       CultureInfo.InvariantCulture, 
+                       out value);
         }
     }
 }
