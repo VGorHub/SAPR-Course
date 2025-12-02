@@ -4,9 +4,11 @@ using WeightPlatePlugin.Model;
 
 namespace WeightPlatePlugin.Tests
 {
+    //TODO: XML
     [TestFixture]
     public class ValidationExceptionTests
     {
+        //TODO: description
         [Test]
         public void Constructor_WithErrorsList_UsesFirstMessageAndExposesErrors()
         {

@@ -5,6 +5,7 @@
     /// </summary>
     public class ValidationError
     {
+        //TODO: XML
         public ValidationError(ParameterId parameter, string message)
         {
             Parameter = parameter;
@@ -15,8 +16,10 @@
 
         public string Message { get; }
 
+        //TODO: refactor
         public string GetMessage() => Message;
 
+        //TODO: refactor
         public ParameterId GetParameter() => Parameter;
     }
 }

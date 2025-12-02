@@ -8,6 +8,7 @@ namespace WeightPlatePlugin.Model
     /// </summary>
     public class Parameters
     {
+        //TODO: XML
         private double _chamferRadiusR;
         private double _holeDiameterd;
         private double _outerDiameterD;
@@ -39,7 +40,7 @@ namespace WeightPlatePlugin.Model
             var errors = new List<ValidationError>();
 
             // --- Диапазоны по ТЗ ---
-
+            //TODO: to const
             if (_outerDiameterD < 100 || _outerDiameterD > 500)
             {
                 errors.Add(new ValidationError(
@@ -47,6 +48,7 @@ namespace WeightPlatePlugin.Model
                     "Наружный диаметр D должен быть в диапазоне 100–500 мм."));
             }
 
+            //TODO: to const
             if (_thicknessT < 10 || _thicknessT > 80)
             {
                 errors.Add(new ValidationError(
@@ -54,6 +56,7 @@ namespace WeightPlatePlugin.Model
                     "Толщина T должна быть в диапазоне 10–80 мм."));
             }
 
+            //TODO: to const
             if (_holeDiameterd < 26 || _holeDiameterd > 51)
             {
                 errors.Add(new ValidationError(
@@ -61,6 +64,7 @@ namespace WeightPlatePlugin.Model
                     "Диаметр отверстия d должен быть в диапазоне 26–51 мм."));
             }
 
+            //TODO: to const
             if (_chamferRadiusR < 2 || _chamferRadiusR > 10)
             {
                 errors.Add(new ValidationError(
@@ -93,6 +97,7 @@ namespace WeightPlatePlugin.Model
             // d < D
             if (_outerDiameterD > 0 && _holeDiameterd >= _outerDiameterD)
             {
+                //TODO: RSDN
                 const string message = "Диаметр отверстия d должен быть меньше наружного диаметра D (d < D).";
                 errors.Add(new ValidationError(ParameterId.HoleDiameterd, message));
                 errors.Add(new ValidationError(ParameterId.OuterDiameterD, message));
@@ -101,9 +106,11 @@ namespace WeightPlatePlugin.Model
             // d < L < D
             if (_outerDiameterD > 0 && _recessRadiusL > 0 && _holeDiameterd > 0)
             {
+                //TODO: rename
                 bool ok = _holeDiameterd < _recessRadiusL && _recessRadiusL < _outerDiameterD;
                 if (!ok)
                 {
+                    //TODO: RSDN
                     const string message = "Радиус внутреннего углубления L должен удовлетворять неравенству d < L < D.";
                     errors.Add(new ValidationError(ParameterId.RecessRadiusL, message));
                     errors.Add(new ValidationError(ParameterId.HoleDiameterd, message));
@@ -114,9 +121,11 @@ namespace WeightPlatePlugin.Model
             // 0 < G < T
             if (_recessDepthG > 0 && _thicknessT > 0)
             {
+                //TODO: rename
                 bool ok = _recessDepthG > 0 && _recessDepthG < _thicknessT;
                 if (!ok)
                 {
+                    //TODO: RSDN
                     const string message = "Глубина внутреннего углубления G должна удовлетворять неравенству 0 < G < T.";
                     errors.Add(new ValidationError(ParameterId.RecessDepthG, message));
                     errors.Add(new ValidationError(ParameterId.ThicknessT, message));

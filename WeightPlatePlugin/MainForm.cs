@@ -14,6 +14,7 @@ namespace WeightPlatePlugin
     /// </summary>
     public partial class WeightPlatePlugin : Form
     {
+        //TODO: XML
         private readonly ErrorProvider _errorProvider = new ErrorProvider();
         private readonly Dictionary<ParameterId, TextBox> _parameterInputs;
         private readonly Parameters _parameters = new Parameters();
@@ -169,6 +170,7 @@ namespace WeightPlatePlugin
                     _parameters.SetRecessDepthG(value);
                     break;
                 default:
+                    //TODO: RSDN
                     throw new ArgumentOutOfRangeException(nameof(parameterId), parameterId, "Неизвестный параметр.");
             }
         }
@@ -187,12 +189,14 @@ namespace WeightPlatePlugin
             }
         }
 
+        //TODO: XML
         private void SetTextBoxError(TextBox textBox, string message)
         {
             textBox.BackColor = Color.LightCoral;
             _errorProvider.SetError(textBox, message);
         }
 
+        //TODO: XML
         private void ClearAllErrors()
         {
             foreach (var textBox in _parameterInputs.Values)
@@ -231,6 +235,7 @@ namespace WeightPlatePlugin
         {
             var styles = NumberStyles.Float | NumberStyles.AllowThousands;
 
+            //TODO: RSDN
             return double.TryParse(text, styles, CultureInfo.CurrentCulture, out value) ||
                    double.TryParse(text, styles, CultureInfo.InvariantCulture, out value);
         }

@@ -9,6 +9,7 @@ namespace WeightPlatePlugin.Tests
     {
         private Parameters CreateValidParameters()
         {
+            //TODO: RSDN
             var p = new Parameters();
             p.SetOuterDiameterD(200);
             p.SetThicknessT(20);
@@ -22,6 +23,7 @@ namespace WeightPlatePlugin.Tests
         [Test]
         public void ValidateAll_ValidParameters_DoesNotThrow()
         {
+            //TODO: RSDN
             var p = CreateValidParameters();
 
             Assert.DoesNotThrow(() => p.ValidateAll());
@@ -52,6 +54,7 @@ namespace WeightPlatePlugin.Tests
         [Test]
         public void ValidateAll_Thickness_OutOfRange_AddsError()
         {
+            //TODO: RSDN
             var p = CreateValidParameters();
             p.SetThicknessT(5);
 
@@ -76,6 +79,7 @@ namespace WeightPlatePlugin.Tests
         [Test]
         public void ValidateAll_ChamferRadius_OutOfRange_AddsError()
         {
+            //TODO: RSDN
             var p = CreateValidParameters();
             p.SetChamferRadiusR(1);
 
@@ -88,6 +92,7 @@ namespace WeightPlatePlugin.Tests
         [Test]
         public void ValidateAll_RecessRadius_NonPositive_AddsError()
         {
+            //TODO: RSDN
             var p = CreateValidParameters();
             p.SetRecessRadiusL(0);
 

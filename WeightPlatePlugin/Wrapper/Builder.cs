@@ -8,14 +8,19 @@ namespace WeightPlatePlugin.Wrapper
     /// </summary>
     public class Builder
     {
+        //TODO: XML
         private readonly Wrapper _wrapper;
+
+        //TODO: XML
         private Parameters _parameters = null!;
 
+        //TODO: XML
         public Builder(Wrapper wrapper)
         {
             _wrapper = wrapper ?? throw new ArgumentNullException(nameof(wrapper));
         }
 
+        //TODO: XML
         public Parameters CurrentParameters => _parameters;
 
         /// <summary>
@@ -96,10 +101,14 @@ namespace WeightPlatePlugin.Wrapper
             var depth = _parameters.RecessDepthG;
             var thickness = _parameters.ThicknessT;
 
+            //TODO: refactor
             if (depth <= 0)
+                //TODO: RSDN
                 throw new ArgumentException("Глубина углубления должна быть > 0.", nameof(_parameters.RecessDepthG));
 
+            //TODO: refactor
             if (depth >= thickness)
+                //TODO: RSDN
                 throw new ArgumentException("Глубина углубления G должна быть меньше толщины диска T.");
 
             // 1) Углубление со стороны базовой плоскости XOY
@@ -128,6 +137,7 @@ namespace WeightPlatePlugin.Wrapper
             _wrapper.ApplyChamferOrFillet(_parameters.ChamferRadiusR, null);
         }
 
+        //TODO: XML
         public void SaveModel(string path)
         {
             if (string.IsNullOrWhiteSpace(path))

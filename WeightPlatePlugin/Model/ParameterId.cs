@@ -5,6 +5,7 @@
     /// </summary>
     public enum ParameterId
     {
+        //TODO: XML
         ChamferRadiusR,
         HoleDiameterd,
         OuterDiameterD,

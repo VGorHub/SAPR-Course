@@ -8,6 +8,7 @@ namespace WeightPlatePlugin.Model
     /// </summary>
     public class ValidationException : Exception
     {
+        //TODO: XML
         public ValidationException(List<ValidationError> errors)
             : base(errors != null && errors.Count > 0 ? errors[0].Message : string.Empty)
         {
