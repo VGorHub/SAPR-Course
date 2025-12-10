@@ -4,12 +4,17 @@ using WeightPlatePlugin.Model;
 
 namespace WeightPlatePlugin.Tests
 {
-    //TODO: XML
+    //TODO: XML +
+    /// <summary>
+    /// Набор тестов для класса <see cref="ValidationException"/>.
+    /// Проверяет корректность работы конструкторов и свойств исключения валидации.
+    /// </summary>
     [TestFixture]
     public class ValidationExceptionTests
     {
-        //TODO: description
+        //TODO: description +
         [Test]
+        [Description("Проверка конструктора ValidationException с коллекцией ValidationError")]
         public void Constructor_WithErrorsList_UsesFirstMessageAndExposesErrors()
         {
             var errors = new List<ValidationError>
@@ -30,6 +35,7 @@ namespace WeightPlatePlugin.Tests
         }
 
         [Test]
+        [Description("Проверка конструктора ValidationException с null-коллекцией ошибок")]
         public void Constructor_WithNullErrorsList_CreatesEmptyErrorsCollection()
         {
             List<ValidationError> errors = null;
@@ -43,6 +49,7 @@ namespace WeightPlatePlugin.Tests
         }
 
         [Test]
+        [Description("Проверка конструктора ValidationException с одиночной ошибкой")]
         public void Constructor_WithSingleError_SetsMessageAndSingleError()
         {
             var error = new ValidationError(ParameterId.ChamferRadiusR, "Ошибка фаски");
@@ -56,6 +63,7 @@ namespace WeightPlatePlugin.Tests
         }
 
         [Test]
+        [Description("Проверка конструктора ValidationException с null-ошибкой")]
         public void Constructor_WithNullError_CreatesEmptyErrorsCollection()
         {
             ValidationError error = null;

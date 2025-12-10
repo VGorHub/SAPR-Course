@@ -3,12 +3,17 @@ using WeightPlatePlugin.Model;
 
 namespace WeightPlatePlugin.Tests
 {
-    //TODO: XML
+    //TODO: XML +
+    /// <summary>
+    /// Набор тестов для класса <see cref="ValidationError"/>.
+    /// Проверяет корректность создания объектов ошибок валидации и работу их свойств.
+    /// </summary>
     [TestFixture]
     public class ValidationErrorTests
     {
-        //TODO: description
+        //TODO: description +
         [Test]
+        [Description("Проверка конструктора ValidationError и его геттеров")]
         public void Constructor_SetsPropertiesAndGetters()
         {
             var error = new ValidationError(ParameterId.ThicknessT, "Некорректная толщина");

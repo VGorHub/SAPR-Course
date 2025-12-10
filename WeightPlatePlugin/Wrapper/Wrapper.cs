@@ -88,7 +88,8 @@ namespace WeightPlatePlugin.Wrapper
         {
             if (_topPart == null)
             {
-                throw new InvalidOperationException("Документ ещё не создан. Вызови CreateDocument3D().");
+                throw new InvalidOperationException(
+                    "Документ ещё не создан. Вызови CreateDocument3D().");
             }
 
             return _topPart;
@@ -179,15 +180,21 @@ namespace WeightPlatePlugin.Wrapper
         {
             //TODO: RSDN +
             if (_topPart == null)
-                //TODO: refactor ?
+            {
+                //TODO: refactor +
                 throw new InvalidOperationException(
-                    "Часть не инициализирована. Вызови CreateDocument3D().");
+                                    "Часть не инициализирована. Вызови CreateDocument3D().");
+            }   
 
             //TODO: RSDN +
             if (sketch is not ksEntity sketchEntity)
-                //TODO: refactor ?
+            {
+                //TODO: refactor +
                 throw new ArgumentException(
                     "Ожидался объект эскиза (ksEntity).", nameof(sketch));
+            }
+                
+                
 
             var bossEntity =
                 (ksEntity)_topPart.NewEntity((short)Obj3dType.o3d_bossExtrusion)
@@ -219,10 +226,13 @@ namespace WeightPlatePlugin.Wrapper
         {
 
             if (bodyThickness <= 0)
-                //TODO: refactor ?
+            {
+                //TODO: refactor +
                 //TODO: RSDN +
                 throw new ArgumentOutOfRangeException(nameof(bodyThickness),
                     "Толщина тела должна быть > 0.");
+            }
+                
 
             // делаем небольшой запас, чтобы гарантированно пройти насквозь
             var depth = bodyThickness * 1.2;
@@ -237,12 +247,18 @@ namespace WeightPlatePlugin.Wrapper
         public void CutByExtrusionDepth(object sketch, double depth, bool forward)
         {
             if (_topPart == null)
+            {
                 throw new InvalidOperationException(
                     "Часть не инициализирована. Вызови CreateDocument3D().");
+            }
+                
 
             if (sketch is not ksEntity sketchEntity)
+            {
                 throw new ArgumentException("Ожидался объект эскиза (ksEntity).",
                     nameof(sketch));
+            }
+                
 
             var cutEntity =
                 (ksEntity)_topPart.NewEntity((short)Obj3dType.o3d_cutExtrusion)
@@ -286,11 +302,17 @@ namespace WeightPlatePlugin.Wrapper
         public void ApplyChamferOrFillet(double radius, object? edges)
         {
             if (_topPart == null)
+            {
                 throw new InvalidOperationException(
-                    "Часть не инициализирована. Вызови CreateDocument3D().");
+                   "Часть не инициализирована. Вызови CreateDocument3D().");
+            }
+            
 
             if (radius <= 0)
+            {
                 return;
+            }
+                
 
             // Создаём операцию скругления
             var filletEntity =

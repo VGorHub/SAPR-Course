@@ -4,6 +4,11 @@ using WeightPlatePlugin.Model;
 
 namespace WeightPlatePlugin.Tests
 {
+
+    /// <summary>
+    /// Набор тестов для класса <see cref="Parameters"/>.
+    /// Проверяет корректность валидации параметров диска и условия взаимозависимости между параметрами.
+    /// </summary>
     [TestFixture]
     public class ParametersTests
     {
@@ -21,6 +26,7 @@ namespace WeightPlatePlugin.Tests
         }
 
         [Test]
+        [Description("Проверка валидации при корректных значениях всех параметров")]    
         public void ValidateAll_ValidParameters_DoesNotThrow()
         {
             //TODO: RSDN +
@@ -37,6 +43,7 @@ namespace WeightPlatePlugin.Tests
         }
 
         [Test]
+        [Description("Проверка валидации при значении наружного диаметра D вне допустимого диапазона")]
         public void ValidateAll_OuterDiameter_OutOfRange_AddsError()
         {
             var parameters = CreateValidParameters();
@@ -52,6 +59,7 @@ namespace WeightPlatePlugin.Tests
         }
 
         [Test]
+        [Description("Проверка валидации при значении толщины T вне допустимого диапазона")]
         public void ValidateAll_Thickness_OutOfRange_AddsError()
         {
             //TODO: RSDN +
@@ -65,6 +73,7 @@ namespace WeightPlatePlugin.Tests
         }
 
         [Test]
+        [Description("Проверка валидации при значении диаметра отверстия d вне допустимого диапазона")]
         public void ValidateAll_HoleDiameter_OutOfRange_AddsError()
         {
             var parameters = CreateValidParameters();
@@ -77,6 +86,7 @@ namespace WeightPlatePlugin.Tests
         }
 
         [Test]
+        [Description("Проверка валидации при значении радиуса скругления фаски R вне допустимого диапазона")]
         public void ValidateAll_ChamferRadius_OutOfRange_AddsError()
         {
             //TODO: RSDN +
@@ -90,6 +100,7 @@ namespace WeightPlatePlugin.Tests
         }
 
         [Test]
+        [Description("Проверка валидации при неположительном значении радиуса внутреннего углубления L")]
         public void ValidateAll_RecessRadius_NonPositive_AddsError()
         {
             //TODO: RSDN +
@@ -103,6 +114,7 @@ namespace WeightPlatePlugin.Tests
         }
 
         [Test]
+        [Description("Проверка валидации при неположительном значении глубины внутреннего углубления G")]
         public void ValidateAll_RecessDepth_NonPositive_AddsError()
         {
             var parameters = CreateValidParameters();
@@ -115,6 +127,7 @@ namespace WeightPlatePlugin.Tests
         }
 
         [Test]
+        [Description("Проверка валидации при нарушении условия T ≤ D/10")]
         public void ValidateAll_ThicknessGreaterThanDOver10_AddsErrorsForTAndD()
         {
             var parameters = CreateValidParameters();
@@ -131,6 +144,7 @@ namespace WeightPlatePlugin.Tests
         }
 
         [Test]
+        [Description("Проверка валидации при нарушении условия d < D")]
         public void ValidateAll_HoleDiameterNotLessThanOuterDiameter_AddsErrorsForDAndd()
         {
             var parameters = CreateValidParameters();
@@ -148,6 +162,7 @@ namespace WeightPlatePlugin.Tests
         }
 
         [Test]
+        [Description("Проверка валидации при нарушении условия d < L < D")]
         public void ValidateAll_RecessRadiusDoesNotSatisfy_dLessLlessD_AddsErrors()
         {
             var parameters = CreateValidParameters();
@@ -169,6 +184,7 @@ namespace WeightPlatePlugin.Tests
         }
 
         [Test]
+        [Description("Проверка валидации при нарушении условия 0 < G < T")]
         public void ValidateAll_RecessDepthGreaterOrEqualThickness_AddsErrors()
         {
             var parameters = CreateValidParameters();
