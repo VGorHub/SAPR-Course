@@ -9,7 +9,6 @@ namespace WeightPlatePlugin.Model
     /// </summary>
     public class ValidationException : Exception
     {
-        //TODO: XML +
         /// <summary>
         /// Создаёт исключение валидации на основе списка ошибок.
         /// </summary>

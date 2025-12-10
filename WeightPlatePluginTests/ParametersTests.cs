@@ -14,7 +14,6 @@ namespace WeightPlatePlugin.Tests
     {
         private Parameters CreateValidParameters()
         {
-            //TODO: RSDN +
             var parameters = new Parameters();
             parameters.SetOuterDiameterD(200);
             parameters.SetThicknessT(20);
@@ -29,7 +28,6 @@ namespace WeightPlatePlugin.Tests
         [Description("Проверка валидации при корректных значениях всех параметров")]    
         public void ValidateAll_ValidParameters_DoesNotThrow()
         {
-            //TODO: RSDN +
             var parameters = CreateValidParameters();
 
             Assert.DoesNotThrow(() => parameters.ValidateAll());
@@ -62,7 +60,6 @@ namespace WeightPlatePlugin.Tests
         [Description("Проверка валидации при значении толщины T вне допустимого диапазона")]
         public void ValidateAll_Thickness_OutOfRange_AddsError()
         {
-            //TODO: RSDN +
             var parameters = CreateValidParameters();
             parameters.SetThicknessT(5);
 
@@ -89,7 +86,6 @@ namespace WeightPlatePlugin.Tests
         [Description("Проверка валидации при значении радиуса скругления фаски R вне допустимого диапазона")]
         public void ValidateAll_ChamferRadius_OutOfRange_AddsError()
         {
-            //TODO: RSDN +
             var parameters = CreateValidParameters();
             parameters.SetChamferRadiusR(1);
 
@@ -103,7 +99,6 @@ namespace WeightPlatePlugin.Tests
         [Description("Проверка валидации при неположительном значении радиуса внутреннего углубления L")]
         public void ValidateAll_RecessRadius_NonPositive_AddsError()
         {
-            //TODO: RSDN +
             var parameters = CreateValidParameters();
             parameters.SetRecessRadiusL(0);
 

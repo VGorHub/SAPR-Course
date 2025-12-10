@@ -8,19 +8,16 @@ namespace WeightPlatePlugin.Wrapper
     /// </summary>
     public class Builder
     {
-        //TODO: XML +
         /// <summary>
         /// Обёртка над Kompas 3D API.
         /// </summary>
         private readonly Wrapper _wrapper;
 
-        //TODO: XML +
         /// <summary>
         /// Текущие параметры модели.
         /// </summary>
         private Parameters _parameters = null!;
 
-        //TODO: XML +
         /// <summary>
         /// Создаёт новый объект построителя модели.
         /// </summary>
@@ -30,7 +27,6 @@ namespace WeightPlatePlugin.Wrapper
             _wrapper = wrapper ?? throw new ArgumentNullException(nameof(wrapper));
         }
 
-        //TODO: XML +
         /// <summary>
         /// Параметры, по которым была построена текущая модель.
         /// </summary>
@@ -114,19 +110,15 @@ namespace WeightPlatePlugin.Wrapper
             var depth = _parameters.RecessDepthG;
             var thickness = _parameters.ThicknessT;
 
-            //TODO: refactor +
             if (depth <= 0)
             {
-                //TODO: RSDN +
                 throw new ArgumentOutOfRangeException(
                     nameof(depth),
                     "Глубина углубления должна быть > 0.");
             }
 
-            //TODO: refactor +
             if (depth >= thickness)
             {
-                //TODO: RSDN +
                 throw new ArgumentOutOfRangeException(
                     nameof(depth),
                     "Глубина углубления G должна быть меньше толщины диска T.");
@@ -157,7 +149,6 @@ namespace WeightPlatePlugin.Wrapper
             _wrapper.ApplyChamferOrFillet(_parameters.ChamferRadiusR, null);
         }
 
-        //TODO: XML +
         /// <summary>
         /// Сохраняет построенную модель в файл.
         /// </summary>

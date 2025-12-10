@@ -40,7 +40,6 @@ namespace WeightPlatePlugin.Wrapper
                 return;
             }
 
-            //TODO: RSDN +
             var t = Type.GetTypeFromProgID("KOMPAS.Application.5");
             if (t == null)
             {
@@ -48,7 +47,6 @@ namespace WeightPlatePlugin.Wrapper
                     "Не найден ProgID KOMPAS.Application.5");
             }
 
-            //TODO: RSDN +
             _kompas = (KompasObject)Activator.CreateInstance(t)
                       ?? throw new InvalidOperationException(
                           "Не удалось создать KompasObject.");
@@ -64,12 +62,10 @@ namespace WeightPlatePlugin.Wrapper
         {
             if (_kompas == null)
             {
-                //TODO: RSDN +
                 throw new InvalidOperationException(
                     "Kompas не инициализирован. Сначала вызови AttachOrRunCAD().");
             }
 
-            //TODO: RSDN +
             _doc3D = (ksDocument3D)_kompas.Document3D()
                      ?? throw new InvalidOperationException(
                          "Не удалось получить ksDocument3D.");
@@ -103,7 +99,6 @@ namespace WeightPlatePlugin.Wrapper
         {
             if (_topPart == null)
             {
-                //TODO: RSDN +
                 throw new InvalidOperationException(
                     "Часть не инициализирована. Вызови CreateDocument3D().");
             }
@@ -116,12 +111,10 @@ namespace WeightPlatePlugin.Wrapper
                 _ => (short)Obj3dType.o3d_planeXOY
             };
 
-            //TODO: RSDN +
             var basePlane = (ksEntity)_topPart.GetDefaultEntity(planeType)
                            ?? throw new InvalidOperationException(
                                "Не удалось получить базовую плоскость.");
 
-            //TODO: RSDN +
             var sketchEntity = (ksEntity)_topPart
                                 .NewEntity((short)Obj3dType.o3d_sketch)
                                ?? throw new InvalidOperationException(
@@ -143,7 +136,6 @@ namespace WeightPlatePlugin.Wrapper
         {
             if (_current2dDoc == null)
             {
-                //TODO: RSDN +
                 throw new InvalidOperationException("Нет активного 2D-эскиза." +
                     " Сначала вызови CreateSketchOnPlane().");
             }
@@ -159,7 +151,6 @@ namespace WeightPlatePlugin.Wrapper
             if (sketch is not ksEntity sketchEntity)
             {
 
-                //TODO: RSDN +
                 throw new ArgumentException("Ожидался объект эскиза (ksEntity).", 
                     nameof(sketch));
             }
@@ -178,23 +169,17 @@ namespace WeightPlatePlugin.Wrapper
         /// <param name="thickness">Толщина диска T (глубина выдавливания).</param>
         public void BossByRevolve(object sketch, string axis, double thickness)
         {
-            //TODO: RSDN +
             if (_topPart == null)
             {
-                //TODO: refactor +
                 throw new InvalidOperationException(
                                     "Часть не инициализирована. Вызови CreateDocument3D().");
             }   
 
-            //TODO: RSDN +
             if (sketch is not ksEntity sketchEntity)
             {
-                //TODO: refactor +
                 throw new ArgumentException(
                     "Ожидался объект эскиза (ksEntity).", nameof(sketch));
-            }
-                
-                
+            }                
 
             var bossEntity =
                 (ksEntity)_topPart.NewEntity((short)Obj3dType.o3d_bossExtrusion)
@@ -227,13 +212,10 @@ namespace WeightPlatePlugin.Wrapper
 
             if (bodyThickness <= 0)
             {
-                //TODO: refactor +
-                //TODO: RSDN +
                 throw new ArgumentOutOfRangeException(nameof(bodyThickness),
                     "Толщина тела должна быть > 0.");
             }
-                
-
+            
             // делаем небольшой запас, чтобы гарантированно пройти насквозь
             var depth = bodyThickness * 1.2;
 
@@ -422,7 +404,5 @@ namespace WeightPlatePlugin.Wrapper
 
             return sketchEntity;
         }
-
-
     }
 }

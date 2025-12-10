@@ -8,7 +8,6 @@ namespace WeightPlatePlugin.Model
     /// </summary>
     public class Parameters
     {
-        //TODO: XML +
         /// <summary>
         /// Радиус фаски/скругления кромок (R).
         /// </summary>
@@ -128,15 +127,14 @@ namespace WeightPlatePlugin.Model
 
             // --- Диапазоны по ТЗ (простые, без зависимостей) ---
 
-            //TODO: to const +
             if (_outerDiameterD < OuterDiameterMin || _outerDiameterD > OuterDiameterMax)
             {
                 errors.Add(new ValidationError(
                     ParameterId.OuterDiameterD,
+                    //TODO: RSDN
                     $"Наружный диаметр D должен быть в диапазоне {OuterDiameterMin:0}–{OuterDiameterMax:0} мм."));
             }
 
-            //TODO: to const +
             if (_thicknessT < ThicknessMin || _thicknessT > ThicknessMax)
             {
                 errors.Add(new ValidationError(
@@ -144,19 +142,19 @@ namespace WeightPlatePlugin.Model
                     $"Толщина T должна быть в диапазоне {ThicknessMin:0}–{ThicknessMax:0} мм."));
             }
 
-            //TODO: to const +
             if (_holeDiameterd < HoleDiameterMin || _holeDiameterd > HoleDiameterMax)
             {
                 errors.Add(new ValidationError(
                     ParameterId.HoleDiameterd,
+                    //TODO: RSDN
                     $"Диаметр отверстия d должен быть в диапазоне {HoleDiameterMin:0}–{HoleDiameterMax:0} мм."));
             }
 
-            //TODO: to const +
             if (_chamferRadiusR < ChamferRadiusMin || _chamferRadiusR > ChamferRadiusMax)
             {
                 errors.Add(new ValidationError(
                     ParameterId.ChamferRadiusR,
+                    //TODO: RSDN
                     $"Радиус скругления фаски R должен быть в диапазоне {ChamferRadiusMin:0}–{ChamferRadiusMax:0} мм."));
             }
 
@@ -187,7 +185,6 @@ namespace WeightPlatePlugin.Model
             // d < D
             if (_outerDiameterD > 0 && _holeDiameterd >= _outerDiameterD)
             {
-                //TODO: RSDN +
                 const string message = "Диаметр отверстия d должен быть меньше наружного диаметра D (d < D).";
                 errors.Add(new ValidationError(ParameterId.HoleDiameterd, message));
                 errors.Add(new ValidationError(ParameterId.OuterDiameterD, message));
@@ -200,14 +197,13 @@ namespace WeightPlatePlugin.Model
                 var minL = _holeDiameterd / 2.0;      // L > d/2
                 var maxL = _outerDiameterD / 2.0;     // L < D/2
 
-                //TODO: rename +
                 bool isRecessRadiusWithinDiameters =
                     _recessRadiusL > minL && _recessRadiusL < maxL;
 
                 if (!isRecessRadiusWithinDiameters)
                 {
-                    //TODO: RSDN +
                     string message =
+                        //TODO: RSDN
                         "Радиус внутреннего углубления L должен удовлетворять условию d < 2L < D " +
                         $"(то есть L должен быть в диапазоне ({minL:0.###}; {maxL:0.###}) мм).";
 
@@ -220,12 +216,10 @@ namespace WeightPlatePlugin.Model
             // 0 < G < T
             if (_recessDepthG > 0 && _thicknessT > 0)
             {
-                //TODO: rename +
                 bool isRecessDepthInRange = _recessDepthG > 0 && _recessDepthG < _thicknessT;
 
                 if (!isRecessDepthInRange)
                 {
-                    //TODO: RSDN +
                     const string message = "Глубина внутреннего углубления G " +
                         "должна удовлетворять неравенству 0 < G < T.";
                     errors.Add(new ValidationError(ParameterId.RecessDepthG, message));

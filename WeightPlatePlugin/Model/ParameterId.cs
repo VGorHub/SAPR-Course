@@ -5,8 +5,6 @@
     /// </summary>
     public enum ParameterId
     {
-        //TODO: XML +
-
         /// <summary>
         /// Радиус фаски/скругления кромок (R).
         /// </summary>

@@ -14,11 +14,12 @@ namespace WeightPlatePlugin
     /// </summary>
     public partial class WeightPlatePlugin : Form
     {
-        //TODO: XML +
         /// <summary>
         /// Провайдер ошибок для подсветки полей и вывода подсказок.
         /// </summary>
         private readonly ErrorProvider _errorProvider = new ErrorProvider();
+
+        //TODO: XML
         private readonly Dictionary<ParameterId, TextBox> _parameterInputs;
         private readonly Parameters _parameters = new Parameters();
         private readonly Builder _builder;
@@ -173,7 +174,6 @@ namespace WeightPlatePlugin
                     _parameters.SetRecessDepthG(value);
                     break;
                 default:
-                    //TODO: RSDN +
                     throw new ArgumentOutOfRangeException(
                         nameof(parameterId), 
                         parameterId, 
@@ -195,7 +195,6 @@ namespace WeightPlatePlugin
             }
         }
 
-        //TODO: XML +
         /// <summary>
         /// Подсвечивает текстовое поле и устанавливает текст ошибки.
         /// </summary>
@@ -205,7 +204,6 @@ namespace WeightPlatePlugin
             _errorProvider.SetError(textBox, message);
         }
 
-        //TODO: XML +
         /// <summary>
         /// Очищает все ошибки и сбрасывает подсветку полей.
         /// </summary>
@@ -247,7 +245,6 @@ namespace WeightPlatePlugin
         {
             var styles = NumberStyles.Float | NumberStyles.AllowThousands;
 
-            //TODO: RSDN +
             return double.TryParse(
                 text, 
                 styles, 

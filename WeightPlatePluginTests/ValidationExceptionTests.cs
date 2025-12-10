@@ -4,7 +4,6 @@ using WeightPlatePlugin.Model;
 
 namespace WeightPlatePlugin.Tests
 {
-    //TODO: XML +
     /// <summary>
     /// Набор тестов для класса <see cref="ValidationException"/>.
     /// Проверяет корректность работы конструкторов и свойств исключения валидации.
@@ -12,7 +11,6 @@ namespace WeightPlatePlugin.Tests
     [TestFixture]
     public class ValidationExceptionTests
     {
-        //TODO: description +
         [Test]
         [Description("Проверка конструктора ValidationException с коллекцией ValidationError")]
         public void Constructor_WithErrorsList_UsesFirstMessageAndExposesErrors()

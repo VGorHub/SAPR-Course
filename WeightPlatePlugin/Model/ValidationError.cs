@@ -5,7 +5,6 @@
     /// </summary>
     public class ValidationError
     {
-        //TODO: XML +
         /// <summary>
         /// Создаёт новый объект ошибки валидации параметра.
         /// </summary>
@@ -27,14 +26,12 @@
         /// </summary>
         public string Message { get; }
 
-        //TODO: XML +
         /// <summary>
         /// Возвращает текст сообщения об ошибке.
         /// Оставлено для совместимости с существующим кодом.
         /// </summary>
         public string GetMessage() => Message;
 
-        //TODO: XML +
         /// <summary>
         /// Возвращает идентификатор параметра, для которого произошла ошибка.
         /// Оставлено для совместимости с существующим кодом.
