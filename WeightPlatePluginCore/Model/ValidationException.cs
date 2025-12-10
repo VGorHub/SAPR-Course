@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WeightPlatePlugin.Model
+namespace WeightPlatePluginCore.Model
 {
     /// <summary>
     /// Исключение валидации параметров.

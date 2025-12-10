@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WeightPlatePlugin.Model
+namespace WeightPlatePluginCore.Model
 {
     /// <summary>
     /// Параметры диска и их валидация.
@@ -131,31 +131,35 @@ namespace WeightPlatePlugin.Model
             {
                 errors.Add(new ValidationError(
                     ParameterId.OuterDiameterD,
-                    //TODO: RSDN
-                    $"Наружный диаметр D должен быть в диапазоне {OuterDiameterMin:0}–{OuterDiameterMax:0} мм."));
+                    //TODO: RSDN +
+                    $"Наружный диаметр D должен быть в диапазоне " +
+                    $"{OuterDiameterMin:0}–{OuterDiameterMax:0} мм."));
             }
 
             if (_thicknessT < ThicknessMin || _thicknessT > ThicknessMax)
             {
                 errors.Add(new ValidationError(
                     ParameterId.ThicknessT,
-                    $"Толщина T должна быть в диапазоне {ThicknessMin:0}–{ThicknessMax:0} мм."));
+                    $"Толщина T должна быть в диапазоне " + 
+                    $"{ThicknessMin:0}–{ThicknessMax:0} мм."));
             }
 
             if (_holeDiameterd < HoleDiameterMin || _holeDiameterd > HoleDiameterMax)
             {
                 errors.Add(new ValidationError(
                     ParameterId.HoleDiameterd,
-                    //TODO: RSDN
-                    $"Диаметр отверстия d должен быть в диапазоне {HoleDiameterMin:0}–{HoleDiameterMax:0} мм."));
+                    //TODO: RSDN +
+                    $"Диаметр отверстия d должен быть в диапазоне " +
+                    $"{HoleDiameterMin:0}–{HoleDiameterMax:0} мм."));
             }
 
             if (_chamferRadiusR < ChamferRadiusMin || _chamferRadiusR > ChamferRadiusMax)
             {
                 errors.Add(new ValidationError(
                     ParameterId.ChamferRadiusR,
-                    //TODO: RSDN
-                    $"Радиус скругления фаски R должен быть в диапазоне {ChamferRadiusMin:0}–{ChamferRadiusMax:0} мм."));
+                    //TODO: RSDN +
+                    $"Радиус скругления фаски R должен быть в диапазоне " +
+                    $"{ChamferRadiusMin:0}–{ChamferRadiusMax:0} мм."));
             }
 
             if (_recessRadiusL <= 0)
@@ -185,7 +189,8 @@ namespace WeightPlatePlugin.Model
             // d < D
             if (_outerDiameterD > 0 && _holeDiameterd >= _outerDiameterD)
             {
-                const string message = "Диаметр отверстия d должен быть меньше наружного диаметра D (d < D).";
+                const string message = "Диаметр отверстия d " +
+                    "должен быть меньше наружного диаметра D (d < D).";
                 errors.Add(new ValidationError(ParameterId.HoleDiameterd, message));
                 errors.Add(new ValidationError(ParameterId.OuterDiameterD, message));
             }
@@ -203,9 +208,11 @@ namespace WeightPlatePlugin.Model
                 if (!isRecessRadiusWithinDiameters)
                 {
                     string message =
-                        //TODO: RSDN
-                        "Радиус внутреннего углубления L должен удовлетворять условию d < 2L < D " +
-                        $"(то есть L должен быть в диапазоне ({minL:0.###}; {maxL:0.###}) мм).";
+                        //TODO: RSDN +
+                        "Радиус внутреннего углубления L " +
+                        "должен удовлетворять условию d < 2L < D " +
+                        $"(то есть L должен быть в диапазоне " +
+                        $"({minL:0.###}; {maxL:0.###}) мм).";
 
                     errors.Add(new ValidationError(ParameterId.RecessRadiusL, message));
                     errors.Add(new ValidationError(ParameterId.HoleDiameterd, message));

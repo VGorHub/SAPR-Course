@@ -19,11 +19,26 @@ namespace WeightPlatePlugin
         /// </summary>
         private readonly ErrorProvider _errorProvider = new ErrorProvider();
 
-        //TODO: XML
+        //TODO: XML +
+        /// <summary>
+        /// Словарь для связи идентификаторов параметров с соответствующими текстовыми полями ввода.
+        /// Обеспечивает доступ к элементам управления для отображения ошибок валидации.
+        /// </summary>
         private readonly Dictionary<ParameterId, TextBox> _parameterInputs;
+        /// <summary>
+        /// Модель параметров диска, содержащая текущие значения всех введенных пользователем параметров.
+        /// Обеспечивает валидацию и управление значениями параметров.
+        /// </summary>
         private readonly Parameters _parameters = new Parameters();
+        /// <summary>
+        /// Построитель 3D-модели диска, использующий API КОМПАС-3D для создания геометрической модели
+        /// на основе валидных параметров.
+        /// </summary>s
         private readonly Builder _builder;
-
+        
+        /// <summary>
+        /// Конструктор формы.
+        /// </summary>
         public WeightPlatePlugin()
         {
             InitializeComponent();
@@ -50,12 +65,17 @@ namespace WeightPlatePlugin
 
             ResetToDefaults();
         }
-
+        /// <summary>
+        /// Обработчик кнопки "Сбросить до значений по умолчанию".
+        /// </summary>
         private void resetButton_Click(object sender, EventArgs e)
         {
             ResetToDefaults();
         }
 
+        /// <summary>
+        /// Обработчик кнопки "Построить".
+        /// </summary>
         private void buildButton_Click(object sender, EventArgs e)
         {
             BuildModel();

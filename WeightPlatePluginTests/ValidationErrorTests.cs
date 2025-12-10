@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using WeightPlatePlugin.Model;
+using WeightPlatePluginCore.Model;
 
 namespace WeightPlatePlugin.Tests
 {

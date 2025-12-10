@@ -1,4 +1,4 @@
-﻿namespace WeightPlatePlugin.Model
+﻿namespace WeightPlatePluginCore.Model
 {
     /// <summary>
     /// Описание одной ошибки валидации конкретного параметра.

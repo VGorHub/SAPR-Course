@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeightPlatePlugin", "Weight
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeightPlatePluginTests", "WeightPlatePluginTests\WeightPlatePluginTests.csproj", "{3CDBB121-144F-439F-9847-DC95ADC9CA26}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeightPlatePluginCore", "WeightPlatePluginCore\WeightPlatePluginCore.csproj", "{B8E6CEDE-69FF-4049-AB67-DC26DBBCD6D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{3CDBB121-144F-439F-9847-DC95ADC9CA26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CDBB121-144F-439F-9847-DC95ADC9CA26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CDBB121-144F-439F-9847-DC95ADC9CA26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8E6CEDE-69FF-4049-AB67-DC26DBBCD6D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8E6CEDE-69FF-4049-AB67-DC26DBBCD6D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8E6CEDE-69FF-4049-AB67-DC26DBBCD6D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8E6CEDE-69FF-4049-AB67-DC26DBBCD6D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

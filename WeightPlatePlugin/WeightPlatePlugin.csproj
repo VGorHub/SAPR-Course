@@ -9,11 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <COMReference Include="Kompas6API5">
+    <COMReference Include="Kompas6API3D5COM">
       <WrapperTool>tlbimp</WrapperTool>
       <VersionMinor>0</VersionMinor>
       <VersionMajor>1</VersionMajor>
-      <Guid>0422828c-f174-495e-ac5d-d31014dbbe87</Guid>
+      <Guid>006c01c3-fa63-4f20-b930-cce6dd3a9236</Guid>
       <Lcid>0</Lcid>
       <Isolated>false</Isolated>
       <EmbedInteropTypes>true</EmbedInteropTypes>
@@ -27,20 +27,20 @@
       <Isolated>false</Isolated>
       <EmbedInteropTypes>true</EmbedInteropTypes>
     </COMReference>
+    <COMReference Include="Kompas6API5">
+      <WrapperTool>tlbimp</WrapperTool>
+      <VersionMinor>0</VersionMinor>
+      <VersionMajor>1</VersionMajor>
+      <Guid>0422828c-f174-495e-ac5d-d31014dbbe87</Guid>
+      <Lcid>0</Lcid>
+      <Isolated>false</Isolated>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </COMReference>
     <COMReference Include="Kompas6Constants">
       <WrapperTool>tlbimp</WrapperTool>
       <VersionMinor>0</VersionMinor>
       <VersionMajor>1</VersionMajor>
       <Guid>75c9f5d0-b5b8-4526-8681-9903c567d2ed</Guid>
-      <Lcid>0</Lcid>
-      <Isolated>false</Isolated>
-      <EmbedInteropTypes>true</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="Kompas6API3D5COM">
-      <WrapperTool>tlbimp</WrapperTool>
-      <VersionMinor>0</VersionMinor>
-      <VersionMajor>1</VersionMajor>
-      <Guid>006c01c3-fa63-4f20-b930-cce6dd3a9236</Guid>
       <Lcid>0</Lcid>
       <Isolated>false</Isolated>
       <EmbedInteropTypes>true</EmbedInteropTypes>
@@ -54,6 +54,10 @@
       <Isolated>false</Isolated>
       <EmbedInteropTypes>true</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WeightPlatePluginCore\WeightPlatePluginCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>

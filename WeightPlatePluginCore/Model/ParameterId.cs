@@ -1,4 +1,4 @@
-﻿namespace WeightPlatePlugin.Model
+﻿namespace WeightPlatePluginCore.Model
 {
     /// <summary>
     /// Список параметров геометрии диска.

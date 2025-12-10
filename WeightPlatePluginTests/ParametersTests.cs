@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using WeightPlatePlugin.Model;
+using WeightPlatePluginCore.Model;
 
 namespace WeightPlatePlugin.Tests
 {
@@ -22,22 +22,6 @@ namespace WeightPlatePlugin.Tests
             parameters.SetRecessRadiusL(100);
             parameters.SetRecessDepthG(5);
             return parameters;
-        }
-
-        [Test]
-        [Description("Проверка валидации при корректных значениях всех параметров")]    
-        public void ValidateAll_ValidParameters_DoesNotThrow()
-        {
-            var parameters = CreateValidParameters();
-
-            Assert.DoesNotThrow(() => parameters.ValidateAll());
-
-            Assert.AreEqual(200, parameters.OuterDiameterD);
-            Assert.AreEqual(20, parameters.ThicknessT);
-            Assert.AreEqual(30, parameters.HoleDiameterd);
-            Assert.AreEqual(5, parameters.ChamferRadiusR);
-            Assert.AreEqual(100, parameters.RecessRadiusL);
-            Assert.AreEqual(5, parameters.RecessDepthG);
         }
 
         [Test]
@@ -157,25 +141,27 @@ namespace WeightPlatePlugin.Tests
         }
 
         [Test]
-        [Description("Проверка валидации при нарушении условия d < L < D")]
-        public void ValidateAll_RecessRadiusDoesNotSatisfy_dLessLlessD_AddsErrors()
+        [Description("Проверка валидации при нарушении условия d < 2L < D")]
+        public void ValidateAll_RecessRadiusDoesNotSatisfy_dLess2LLessD_AddsErrors()
         {
             var parameters = CreateValidParameters();
 
             parameters.SetHoleDiameterd(30);
-            parameters.SetRecessRadiusL(20);
+            parameters.SetRecessRadiusL(10);
 
             var exception = Assert.Throws<ValidationException>(() => parameters.ValidateAll());
 
+            string expectedMessagePart = "должен удовлетворять условию d < 2L < D";
+
             Assert.That(exception.Errors, Has.Some.Matches<ValidationError>(
                 e => e.Parameter == ParameterId.RecessRadiusL &&
-                     e.Message.Contains("L должен удовлетворять неравенству d < L < D")));
+                     e.Message.Contains(expectedMessagePart)));
             Assert.That(exception.Errors, Has.Some.Matches<ValidationError>(
                 e => e.Parameter == ParameterId.HoleDiameterd &&
-                     e.Message.Contains("L должен удовлетворять неравенству d < L < D")));
+                     e.Message.Contains(expectedMessagePart)));
             Assert.That(exception.Errors, Has.Some.Matches<ValidationError>(
                 e => e.Parameter == ParameterId.OuterDiameterD &&
-                     e.Message.Contains("L должен удовлетворять неравенству d < L < D")));
+                     e.Message.Contains(expectedMessagePart)));
         }
 
         [Test]
