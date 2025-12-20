@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
-using WeightPlatePlugin.Model;
+using WeightPlatePluginCore.Model;
 using WeightPlatePlugin.Wrapper;
 
 namespace WeightPlatePlugin
