@@ -1,6 +1,7 @@
-﻿using System;
-using Kompas6API5;
+﻿using Kompas6API5;
 using Kompas6Constants3D;
+using System;
+using System.Runtime.InteropServices;
 
 namespace WeightPlatePlugin.Wrapper
 {
@@ -404,5 +405,61 @@ namespace WeightPlatePlugin.Wrapper
 
             return sketchEntity;
         }
+
+        /// <summary>
+        /// Закрывает текущий 3D-документ КОМПАС-3D и освобождает COM-ссылки.
+        /// Используется для предотвращения накопления открытых документов и утечек памяти.
+        /// </summary>
+        public void CloseActiveDocument()
+        {
+            if (_doc3D == null)
+            {
+                return;
+            }
+
+            try
+            {
+                _doc3D.close();
+            }
+            catch
+            {
+                // Игнорируем
+            }
+            finally
+            {
+                // Освобождаем COM-ссылки
+                ReleaseComObject(_current2dDoc);
+                ReleaseComObject(_topPart);
+                ReleaseComObject(_doc3D);
+
+                _current2dDoc = null;
+                _topPart = null;
+                _doc3D = null;
+            }
+        }
+
+        /// <summary>
+        /// Безопасно освобождает COM-объект.
+        /// </summary>
+        private static void ReleaseComObject(object? comObject)
+        {
+            if (comObject == null)
+            {
+                return;
+            }
+
+            try
+            {
+                if (Marshal.IsComObject(comObject))
+                {
+                    Marshal.FinalReleaseComObject(comObject);
+                }
+            }
+            catch
+            {
+                // Игнорируем
+            }
+        }
+
     }
 }

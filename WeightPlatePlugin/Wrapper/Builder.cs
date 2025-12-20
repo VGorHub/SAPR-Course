@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using WeightPlatePluginCore.Model;
 
 namespace WeightPlatePlugin.Wrapper
@@ -54,6 +55,21 @@ namespace WeightPlatePlugin.Wrapper
 
             // 5. Фаски / скругления
             ApplyChamferOrFillet();
+            
+            try
+            {
+                //6. Создаем уникальное имя
+                var directory = GetModelsDirectory();
+                var filePath = Path.Combine(directory, CreateFileName(_parameters));
+
+
+                //7. Сохраняем в файл
+                SaveModel(filePath);
+            }
+            finally
+            {
+                _wrapper.CloseActiveDocument();
+            }
         }
 
         /// <summary>
@@ -162,5 +178,31 @@ namespace WeightPlatePlugin.Wrapper
 
             _wrapper.SaveAs(path);
         }
+
+        /// <summary>
+        /// Формирует уникальное имя файла по параметрам и времени.
+        /// </summary>
+        private static string CreateFileName(Parameters p)
+        {
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "WeightPlate_D{0:0}_T{1:0}_d{2:0}_R{3:0}_L{4:0}_G{5:0}_{6:yyyyMMdd_HHmmss_fff}.m3d",
+                p.OuterDiameterD,
+                p.ThicknessT,
+                p.HoleDiameterd,
+                p.ChamferRadiusR,
+                p.RecessRadiusL,
+                p.RecessDepthG,
+                DateTime.Now);
+        }
+
+        private static string GetModelsDirectory()
+        {
+            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            var directory = Path.Combine(documents, "WeightPlatePlugin", "Models");
+            Directory.CreateDirectory(directory);
+            return directory;
+        }
+
     }
 }
