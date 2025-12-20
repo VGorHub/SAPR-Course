@@ -279,13 +279,16 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(469, 327);
+            ClientSize = new Size(464, 341);
             Controls.Add(label7);
             Controls.Add(panel2);
             Controls.Add(panel1);
             Margin = new Padding(4, 3, 4, 3);
+            MaximumSize = new Size(480, 380);
+            MinimumSize = new Size(480, 380);
             Name = "WeightPlatePlugin";
             Text = "WeightPlatePlugin";
+            FormClosing += WeightPlatePlugin_FormClosing;
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             groupBox1.ResumeLayout(false);

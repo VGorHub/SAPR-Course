@@ -7,6 +7,9 @@ using System.Windows.Forms;
 using WeightPlatePluginCore.Model;
 using WeightPlatePlugin.Wrapper;
 using WeightPlatePluginCore.Presets;
+using System.IO;
+using WeightPlatePluginCore.Persistence;
+using WeightPlatePluginCore.Presets;
 
 namespace WeightPlatePlugin
 {
@@ -34,13 +37,18 @@ namespace WeightPlatePlugin
         /// <summary>
         /// Построитель 3D-модели диска, использующий API КОМПАС-3D для создания геометрической модели
         /// на основе валидных параметров.
-        /// </summary>s
+        /// </summary>
         private readonly Builder _builder;
 
         /// <summary>
         /// Защита от рекурсивных событий при синхронизации UI.
         /// </summary>
         private bool _isUiSync;
+
+        /// <summary>
+        /// Класс отвечающий за сохранение параметров в файл.
+        /// </summary>
+        private ParametersFileStore _parametersStore;
 
         /// <summary>
         /// Конструктор формы.
@@ -69,11 +77,17 @@ namespace WeightPlatePlugin
             }
 
             _errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
+            
+            _parametersStore = new ParametersFileStore(GetUserParametersFilePath());
 
             InitializePresetComboBox();
-            ApplyPreset(WeightPlatePresetCatalog.GetById(WeightPlatePresetCatalog.DefaultPresetId));
 
-            ResetToDefaults();
+            if (!TryLoadUserParameters())
+            {
+                ApplyPreset(WeightPlatePresetCatalog.GetById(WeightPlatePresetCatalog.DefaultPresetId));
+            }
+
+            FormClosing += WeightPlatePlugin_FormClosing;
         }
         /// <summary>
         /// Обработчик кнопки "Сбросить до значений по умолчанию".
@@ -113,6 +127,7 @@ namespace WeightPlatePlugin
 
                 ClearAllErrors();
                 _parameters.ValidateAll();
+                TrySaveUserParameters();
             }
             catch (ValidationException ex)
             {
@@ -406,6 +421,79 @@ namespace WeightPlatePlugin
             }
         }
 
+        /// <summary>
+        /// Возвращает полный путь к файлу хранения пользовательских параметров.
+        /// </summary>
+        /// <returns>Полный путь к файлу пользовательских параметров.</returns>
+        private static string GetUserParametersFilePath()
+        {
+            var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            return Path.Combine(appData, "WeightPlatePlugin", "user-parameters.json");
+        }
+
+        /// <summary>
+        /// Пытается загрузить пользовательские параметры из файла
+        /// и применить их к текущей форме.
+        /// </summary>
+        /// <returns>
+        /// <c>true</c>, если параметры были успешно загружены и применены;
+        /// <c>false</c> — если файл отсутствует или содержит некорректные данные.
+        /// </returns>
+        private bool TryLoadUserParameters()
+        {
+            if (!_parametersStore.TryLoad(out var loaded))
+            {
+                return false;
+            }
+
+            _isUiSync = true;
+            try
+            {
+                _parameters.CopyFrom(loaded);
+
+                SetTextBox(textBoxD, _parameters.OuterDiameterD);
+                SetTextBox(textBoxT, _parameters.ThicknessT);
+                SetTextBox(textBoxHoleDiameter, _parameters.HoleDiameterd);
+                SetTextBox(textBoxR, _parameters.ChamferRadiusR);
+                SetTextBox(textBoxL, _parameters.RecessRadiusL);
+                SetTextBox(textBoxG, _parameters.RecessDepthG);
+
+                SelectPreset(WeightPlatePresetId.Custom);
+
+                ClearAllErrors();
+            }
+            finally
+            {
+                _isUiSync = false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Пытается сохранить текущие параметры пользователя в файл.
+        /// </summary>
+        private void TrySaveUserParameters()
+        {
+            try
+            {
+                _parametersStore.Save(_parameters);
+            }
+            catch
+            {
+                // Игнорируем 
+            }
+        }
+
+        /// <summary>
+        /// Обработчик события закрытия формы.
+        /// Используется для финального сохранения пользовательских параметров
+        /// перед завершением работы приложения.
+        /// </summary>
+        private void WeightPlatePlugin_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            TrySaveUserParameters();
+        }
     }
 }
 
