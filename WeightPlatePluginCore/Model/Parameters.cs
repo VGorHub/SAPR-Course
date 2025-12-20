@@ -239,5 +239,34 @@ namespace WeightPlatePluginCore.Model
                 throw new ValidationException(errors);
             }
         }
+
+        /// <summary>
+        /// Копирует значения параметров из <paramref name="source"/> без валидации.
+        /// Валидацию выполняет <see cref="ValidateAll"/>.
+        /// </summary>
+        public void CopyFrom(Parameters source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            SetOuterDiameterD(source.OuterDiameterD);
+            SetThicknessT(source.ThicknessT);
+            SetHoleDiameterd(source.HoleDiameterd);
+            SetChamferRadiusR(source.ChamferRadiusR);
+            SetRecessRadiusL(source.RecessRadiusL);
+            SetRecessDepthG(source.RecessDepthG);
+        }
+
+        /// <summary>
+        /// Создаёт копию текущих параметров.
+        /// </summary>
+        public Parameters Clone()
+        {
+            var copy = new Parameters();
+            copy.CopyFrom(this);
+            return copy;
+        }
     }
 }

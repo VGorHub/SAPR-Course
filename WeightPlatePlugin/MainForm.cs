@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Windows.Forms;
 using WeightPlatePluginCore.Model;
 using WeightPlatePlugin.Wrapper;
+using WeightPlatePluginCore.Presets;
 
 namespace WeightPlatePlugin
 {
@@ -35,7 +36,12 @@ namespace WeightPlatePlugin
         /// на основе валидных параметров.
         /// </summary>s
         private readonly Builder _builder;
-        
+
+        /// <summary>
+        /// Защита от рекурсивных событий при синхронизации UI.
+        /// </summary>
+        private bool _isUiSync;
+
         /// <summary>
         /// Конструктор формы.
         /// </summary>
@@ -59,9 +65,13 @@ namespace WeightPlatePlugin
             {
                 pair.Value.Tag = pair.Key;
                 pair.Value.Validating += textBox_Validating;
+                pair.Value.TextChanged += textBox_TextChanged;
             }
 
             _errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
+
+            InitializePresetComboBox();
+            ApplyPreset(WeightPlatePresetCatalog.GetById(WeightPlatePresetCatalog.DefaultPresetId));
 
             ResetToDefaults();
         }
@@ -195,8 +205,8 @@ namespace WeightPlatePlugin
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(
-                        nameof(parameterId), 
-                        parameterId, 
+                        nameof(parameterId),
+                        parameterId,
                         "Неизвестный параметр.");
             }
         }
@@ -241,22 +251,9 @@ namespace WeightPlatePlugin
         /// </summary>
         private void ResetToDefaults()
         {
-            textBoxD.Text = "450";
-            textBoxT.Text = "45";
-            textBoxHoleDiameter.Text = "28";
-            textBoxR.Text = "5";
-            textBoxL.Text = "120";
-            textBoxG.Text = "15";
-
-            ApplyParameterValue(ParameterId.OuterDiameterD, 450);
-            ApplyParameterValue(ParameterId.ThicknessT, 45);
-            ApplyParameterValue(ParameterId.HoleDiameterd, 28);
-            ApplyParameterValue(ParameterId.ChamferRadiusR, 5);
-            ApplyParameterValue(ParameterId.RecessRadiusL, 120);
-            ApplyParameterValue(ParameterId.RecessDepthG, 15);
-
-            ClearAllErrors();
+            ApplyPreset(WeightPlatePresetCatalog.GetById(WeightPlatePresetCatalog.DefaultPresetId));
         }
+
 
         /// <summary>
         /// Пытается распарсить число.
@@ -266,16 +263,149 @@ namespace WeightPlatePlugin
             var styles = NumberStyles.Float | NumberStyles.AllowThousands;
 
             return double.TryParse(
-                text, 
-                styles, 
-                CultureInfo.CurrentCulture, 
+                text,
+                styles,
+                CultureInfo.CurrentCulture,
                 out value) ||
                    double.TryParse(
-                       text, 
-                       styles, 
-                       CultureInfo.InvariantCulture, 
+                       text,
+                       styles,
+                       CultureInfo.InvariantCulture,
                        out value);
         }
+
+
+        /// <summary>
+        /// Настраивает ComboBox с пресетами.
+        /// Название контролла: presetComboBox.
+        /// </summary>
+        private void InitializePresetComboBox()
+        {
+            presetComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            presetComboBox.BeginUpdate();
+            try
+            {
+                presetComboBox.Items.Clear();
+
+                var presets = WeightPlatePresetCatalog.GetAll();
+                for (int i = 0; i < presets.Count; i++)
+                {
+                    presetComboBox.Items.Add(presets[i]);
+                }
+
+                presetComboBox.SelectedIndexChanged -= comboBoxPreset_SelectedIndexChanged;
+                presetComboBox.SelectedIndexChanged += comboBoxPreset_SelectedIndexChanged;
+            }
+            finally
+            {
+                presetComboBox.EndUpdate();
+            }
+        }
+
+        private void comboBoxPreset_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_isUiSync)
+            {
+                return;
+            }
+
+            var preset = presetComboBox.SelectedItem as WeightPlatePreset;
+            if (preset == null)
+            {
+                return;
+            }
+
+            if (preset.IsCustom)
+            {
+                return;
+            }
+
+            ApplyPreset(preset);
+        }
+
+        private void ApplyPreset(WeightPlatePreset preset)
+        {
+            if (preset == null)
+            {
+                throw new ArgumentNullException(nameof(preset));
+            }
+
+            if (preset.IsCustom)
+            {
+                SelectPreset(WeightPlatePresetId.Custom);
+                return;
+            }
+
+            _isUiSync = true;
+            try
+            {
+                // 1) модель
+                _parameters.CopyFrom(preset.Parameters);
+
+                // 2) UI
+                SetTextBox(textBoxD, _parameters.OuterDiameterD);
+                SetTextBox(textBoxT, _parameters.ThicknessT);
+                SetTextBox(textBoxHoleDiameter, _parameters.HoleDiameterd);
+                SetTextBox(textBoxR, _parameters.ChamferRadiusR);
+                SetTextBox(textBoxL, _parameters.RecessRadiusL);
+                SetTextBox(textBoxG, _parameters.RecessDepthG);
+
+                // 3) выбор пресета в UI
+                SelectPreset(preset.Id);
+
+                ClearAllErrors();
+            }
+            finally
+            {
+                _isUiSync = false;
+            }
+        }
+
+        private void SelectPreset(WeightPlatePresetId presetId)
+        {
+            for (int i = 0; i < presetComboBox.Items.Count; i++)
+            {
+                var item = presetComboBox.Items[i] as WeightPlatePreset;
+                if (item != null && item.Id == presetId)
+                {
+                    presetComboBox.SelectedIndex = i;
+                    return;
+                }
+            }
+        }
+
+        private static void SetTextBox(TextBox textBox, double value)
+        {
+            if (textBox == null)
+            {
+                throw new ArgumentNullException(nameof(textBox));
+            }
+
+            textBox.Text = value.ToString("0.###", CultureInfo.CurrentCulture);
+        }
+
+        /// <summary>
+        /// Любая ручная правка параметров переводит ComboBox в "Пользовательский".
+        /// </summary>
+        private void textBox_TextChanged(object sender, EventArgs e)
+        {
+            if (_isUiSync)
+            {
+                return;
+            }
+
+            _isUiSync = true;
+            try
+            {
+                SelectPreset(WeightPlatePresetId.Custom);
+            }
+            finally
+            {
+                _isUiSync = false;
+            }
+        }
+
     }
 }
 
