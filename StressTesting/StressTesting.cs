@@ -7,7 +7,7 @@ using Microsoft.VisualBasic.Devices;
 using WeightPlatePluginCore.Model;
 using WeightPlatePlugin.Wrapper;
 
-internal static class Program
+internal static class StressTesting
 {
     private const double BytesToGigabytes = 1.0 / 1073741824.0;
     private const double BytesToMegabytes = 1.0 / 1048576.0;

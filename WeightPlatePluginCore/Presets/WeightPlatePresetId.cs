@@ -6,9 +6,9 @@
     public enum WeightPlatePresetId
     {
         StandardTraining = 1,
-        Olympic50 = 2,
-        Compact300 = 3,
-        Dumbbell200 = 4,
+        Olympic = 2,
+        Compact = 3,
+        Dumbbell = 4,
 
         /// <summary>
         /// Пользовательский ввод.

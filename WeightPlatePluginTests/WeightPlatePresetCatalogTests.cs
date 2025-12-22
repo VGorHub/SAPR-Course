@@ -52,16 +52,16 @@ namespace WeightPlatePlugin.Tests
                 Is.EqualTo(WeightPlatePresetId.StandardTraining));
 
             Assert.That(
-                WeightPlatePresetCatalog.GetById(WeightPlatePresetId.Olympic50).Id,
-                Is.EqualTo(WeightPlatePresetId.Olympic50));
+                WeightPlatePresetCatalog.GetById(WeightPlatePresetId.Olympic).Id,
+                Is.EqualTo(WeightPlatePresetId.Olympic));
 
             Assert.That(
-                WeightPlatePresetCatalog.GetById(WeightPlatePresetId.Compact300).Id,
-                Is.EqualTo(WeightPlatePresetId.Compact300));
+                WeightPlatePresetCatalog.GetById(WeightPlatePresetId.Compact).Id,
+                Is.EqualTo(WeightPlatePresetId.Compact));
 
             Assert.That(
-                WeightPlatePresetCatalog.GetById(WeightPlatePresetId.Dumbbell200).Id,
-                Is.EqualTo(WeightPlatePresetId.Dumbbell200));
+                WeightPlatePresetCatalog.GetById(WeightPlatePresetId.Dumbbell).Id,
+                Is.EqualTo(WeightPlatePresetId.Dumbbell));
 
             Assert.That(
                 WeightPlatePresetCatalog.GetById(WeightPlatePresetId.Custom).Id,

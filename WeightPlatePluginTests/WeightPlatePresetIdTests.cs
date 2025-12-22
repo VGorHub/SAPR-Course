@@ -15,9 +15,9 @@ namespace WeightPlatePlugin.Tests
         public void PresetIds_HaveExpectedNumericValues()
         {
             Assert.That((int)WeightPlatePresetId.StandardTraining, Is.EqualTo(1));
-            Assert.That((int)WeightPlatePresetId.Olympic50, Is.EqualTo(2));
-            Assert.That((int)WeightPlatePresetId.Compact300, Is.EqualTo(3));
-            Assert.That((int)WeightPlatePresetId.Dumbbell200, Is.EqualTo(4));
+            Assert.That((int)WeightPlatePresetId.Olympic, Is.EqualTo(2));
+            Assert.That((int)WeightPlatePresetId.Compact, Is.EqualTo(3));
+            Assert.That((int)WeightPlatePresetId.Dumbbell, Is.EqualTo(4));
             Assert.That((int)WeightPlatePresetId.Custom, Is.EqualTo(1000));
         }
 

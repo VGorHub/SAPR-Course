@@ -34,7 +34,7 @@ namespace WeightPlatePluginCore.Presets
                 recessDepthG: 15),
 
             Create(
-                WeightPlatePresetId.Olympic50,
+                WeightPlatePresetId.Olympic,
                 "Олимпийский (Ø450, отв. Ø50)",
                 outerDiameterD: 450,
                 thicknessT: 45,
@@ -44,7 +44,7 @@ namespace WeightPlatePluginCore.Presets
                 recessDepthG: 20),
 
             Create(
-                WeightPlatePresetId.Compact300,
+                WeightPlatePresetId.Compact,
                 "Компактный (Ø300)",
                 outerDiameterD: 300,
                 thicknessT: 30,
@@ -54,7 +54,7 @@ namespace WeightPlatePluginCore.Presets
                 recessDepthG: 10),
 
             Create(
-                WeightPlatePresetId.Dumbbell200,
+                WeightPlatePresetId.Dumbbell,
                 "Гантельный/малый (Ø200)",
                 outerDiameterD: 200,
                 thicknessT: 20,

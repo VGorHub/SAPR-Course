@@ -19,7 +19,7 @@ namespace WeightPlatePlugin.Tests
             parameters.SetThicknessT(20);
             parameters.SetHoleDiameterd(30);
             parameters.SetChamferRadiusR(5);
-            parameters.SetRecessRadiusL(100);
+            parameters.SetRecessRadiusL(50);
             parameters.SetRecessDepthG(5);
             return parameters;
         }
@@ -180,6 +180,15 @@ namespace WeightPlatePlugin.Tests
             Assert.That(exception.Errors, Has.Some.Matches<ValidationError>(
                 e => e.Parameter == ParameterId.ThicknessT &&
                      e.Message.Contains("G должна удовлетворять неравенству 0 < G < T")));
+        }
+
+        [Test]
+        [Description("Валидные параметры: ValidateAll не должен бросать исключение (в т.ч. 0 < G < T)")]
+        public void ValidateAll_ValidParameters_DoesNotThrow()
+        {
+            var parameters = CreateValidParameters();
+
+            Assert.DoesNotThrow(() => parameters.ValidateAll());
         }
     }
 }

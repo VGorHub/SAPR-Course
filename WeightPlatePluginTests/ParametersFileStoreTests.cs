@@ -135,6 +135,45 @@ namespace WeightPlatePluginTests
             Assert.That(loaded.RecessDepthG, Is.EqualTo(original.RecessDepthG));
         }
 
+        [Test]
+        [Description("Проверяет ветку: если целевой файл уже существует, Save удаляет его перед перемещением temp-файла.")]
+        public void Save_WhenTargetFileAlreadyExists_DeletesOldFileAndOverwrites()
+        {
+            var store = new ParametersFileStore(_filePath);
+
+            Directory.CreateDirectory(_tempDirectory);
+
+            File.WriteAllText(_filePath, "OLD_CONTENT");
+            var oldInfo = new FileInfo(_filePath);
+            Assert.That(oldInfo.Length, Is.GreaterThan(0));
+
+            var p = CreateValidParameters();
+
+            store.Save(p);
+
+            Assert.That(File.Exists(_filePath), Is.True);
+            var newText = File.ReadAllText(_filePath);
+            Assert.That(newText, Does.Not.Contain("OLD_CONTENT"));
+            Assert.That(newText, Does.Contain("OuterDiameterD"));
+        }
+
+
+        [Test]
+        [Description("Проверяет ветку: TryLoad возвращает false, если JSON валиден, но десериализация даёт null (json = 'null').")]
+        public void TryLoad_WhenJsonIsNullLiteral_ReturnsFalse()
+        {
+            Directory.CreateDirectory(_tempDirectory);
+            File.WriteAllText(_filePath, "null");
+
+            var store = new ParametersFileStore(_filePath);
+
+            var loaded = store.TryLoad(out var parameters);
+
+            Assert.That(loaded, Is.False);
+            Assert.That(parameters, Is.Null);
+        }
+
+
         private static Parameters CreateValidParameters()
         {
             var p = new Parameters();
