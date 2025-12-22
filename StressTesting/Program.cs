@@ -37,7 +37,7 @@ internal static class Program
         var prevCpuTime = currentProcess.TotalProcessorTime;
         var prevWallTime = DateTime.UtcNow;
 
-        while (iteration < 300)
+        while (iteration < 30000)
         {
             iteration++;
 
