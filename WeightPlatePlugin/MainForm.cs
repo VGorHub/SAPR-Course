@@ -318,6 +318,9 @@ namespace WeightPlatePlugin
             }
         }
 
+        /// <summary>
+        /// Обработчик изменения выбранного пресета в ComboBox.
+        /// </summary>
         private void comboBoxPreset_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (_isUiSync)
@@ -339,6 +342,13 @@ namespace WeightPlatePlugin
             ApplyPreset(preset);
         }
 
+        /// <summary>
+        /// Применяет значения выбранного пресета к модели и интерфейсу.
+        /// </summary>
+        /// <param name="preset">Пресет параметров блина.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Выбрасывается, если <paramref name="preset"/> равен null.
+        /// </exception>
         private void ApplyPreset(WeightPlatePreset preset)
         {
             if (preset == null)
@@ -377,6 +387,10 @@ namespace WeightPlatePlugin
             }
         }
 
+        /// <summary>
+        /// Выбирает пресет в ComboBox по его идентификатору.
+        /// </summary>
+        /// <param name="presetId">Идентификатор пресета.</param>
         private void SelectPreset(WeightPlatePresetId presetId)
         {
             for (int i = 0; i < presetComboBox.Items.Count; i++)
@@ -390,6 +404,14 @@ namespace WeightPlatePlugin
             }
         }
 
+        /// <summary>
+        /// Устанавливает числовое значение в TextBox с учётом текущей культуры.
+        /// </summary>
+        /// <param name="textBox">Элемент ввода.</param>
+        /// <param name="value">Числовое значение.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Выбрасывается, если <paramref name="textBox"/> равен null.
+        /// </exception>
         private static void SetTextBox(TextBox textBox, double value)
         {
             if (textBox == null)
