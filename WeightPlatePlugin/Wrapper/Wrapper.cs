@@ -376,6 +376,7 @@ namespace WeightPlatePlugin.Wrapper
                 throw new InvalidOperationException(
                     "Часть не инициализирована. Вызови CreateDocument3D().");
 
+            //TODO: RSDN
             var basePlane = (ksEntity)_topPart.GetDefaultEntity((short)Obj3dType.o3d_planeXOY)
                            ?? throw new InvalidOperationException(
                                "Не удалось получить базовую плоскость XOY.");
@@ -423,6 +424,8 @@ namespace WeightPlatePlugin.Wrapper
             }
             catch
             {
+                //TODO: ??
+
                 // Игнорируем
             }
             finally
@@ -457,6 +460,7 @@ namespace WeightPlatePlugin.Wrapper
             }
             catch
             {
+                //TODO: ??
                 // Игнорируем
             }
         }

@@ -13,12 +13,14 @@ namespace WeightPlatePluginTests
     [TestFixture]
     public sealed class ParametersFileStoreTests
     {
+        //TODO: XML
         private string _tempDirectory;
         private string _filePath;
 
         [SetUp]
         public void SetUp()
         {
+            //TODO: refactor
             _tempDirectory = Path.Combine(Path.GetTempPath(), "WeightPlatePluginTests", Guid.NewGuid().ToString("N"));
             _filePath = Path.Combine(_tempDirectory, "user-parameters.json");
         }
@@ -35,11 +37,13 @@ namespace WeightPlatePluginTests
             }
             catch
             {
+                //TODO: ??
                 // Игнорируем: тесты не должны падать из-за проблем с очисткой временных файлов
             }
         }
 
         [Test]
+        //TODO: RSDN
         [Description("Проверяет, что конструктор ParametersFileStore выбрасывает исключение при пустом пути к файлу.")]
         public void Ctor_WhenFilePathIsEmpty_ThrowsArgumentException()
         {
@@ -47,6 +51,7 @@ namespace WeightPlatePluginTests
         }
 
         [Test]
+        //TODO: RSDN
         [Description("Проверяет, что TryLoad возвращает false и null-параметры, если файл отсутствует.")]
         public void TryLoad_WhenFileDoesNotExist_ReturnsFalse()
         {
@@ -59,6 +64,7 @@ namespace WeightPlatePluginTests
         }
 
         [Test]
+        //TODO: RSDN
         [Description("Проверяет, что Save создаёт директорию и файл, если они отсутствуют.")]
         public void Save_WhenDirectoryDoesNotExist_CreatesDirectoryAndFile()
         {
@@ -77,6 +83,7 @@ namespace WeightPlatePluginTests
         }
 
         [Test]
+        //TODO: RSDN
         [Description("Проверяет, что Save выбрасывает исключение при передаче null параметров.")]
         public void Save_WhenParametersIsNull_ThrowsArgumentNullException()
         {
@@ -86,6 +93,7 @@ namespace WeightPlatePluginTests
         }
 
         [Test]
+        //TODO: RSDN
         [Description("Проверяет, что Save не сохраняет невалидные параметры и выбрасывает исключение валидации.")]
         public void Save_WhenParametersAreInvalid_ThrowsValidationException()
         {
@@ -98,6 +106,7 @@ namespace WeightPlatePluginTests
         }
 
         [Test]
+        //TODO: RSDN
         [Description("Проверяет, что TryLoad возвращает false при повреждённом файле (некорректный JSON).")]
         public void TryLoad_WhenFileIsCorrupted_ReturnsFalse()
         {
@@ -113,6 +122,7 @@ namespace WeightPlatePluginTests
         }
 
         [Test]
+        //TODO: RSDN
         [Description("Проверяет, что после Save можно выполнить TryLoad и получить эквивалентные значения параметров.")]
         public void Save_ThenTryLoad_RoundTripRestoresValues()
         {
@@ -136,6 +146,7 @@ namespace WeightPlatePluginTests
         }
 
         [Test]
+        //TODO: RSDN
         [Description("Проверяет ветку: если целевой файл уже существует, Save удаляет его перед перемещением temp-файла.")]
         public void Save_WhenTargetFileAlreadyExists_DeletesOldFileAndOverwrites()
         {
@@ -159,6 +170,7 @@ namespace WeightPlatePluginTests
 
 
         [Test]
+        //TODO: RSDN
         [Description("Проверяет ветку: TryLoad возвращает false, если JSON валиден, но десериализация даёт null (json = 'null').")]
         public void TryLoad_WhenJsonIsNullLiteral_ReturnsFalse()
         {
@@ -173,9 +185,10 @@ namespace WeightPlatePluginTests
             Assert.That(parameters, Is.Null);
         }
 
-
+        //TODO: XML
         private static Parameters CreateValidParameters()
         {
+            //TODO: RSDN
             var p = new Parameters();
 
             p.SetOuterDiameterD(450);
@@ -190,8 +203,10 @@ namespace WeightPlatePluginTests
             return p;
         }
 
+        //TODO: XML
         private static Parameters CreateInvalidParameters()
         {
+            //TODO: RSDN
             var p = new Parameters();
 
             p.SetOuterDiameterD(100);

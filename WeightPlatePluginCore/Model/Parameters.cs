@@ -126,12 +126,11 @@ namespace WeightPlatePluginCore.Model
             var errors = new List<ValidationError>();
 
             // --- Диапазоны по ТЗ (простые, без зависимостей) ---
-
+            //TODO: RSDN
             if (_outerDiameterD < OuterDiameterMin || _outerDiameterD > OuterDiameterMax)
             {
                 errors.Add(new ValidationError(
                     ParameterId.OuterDiameterD,
-                    //TODO: RSDN +
                     $"Наружный диаметр D должен быть в диапазоне " +
                     $"{OuterDiameterMin:0}–{OuterDiameterMax:0} мм."));
             }
@@ -144,20 +143,20 @@ namespace WeightPlatePluginCore.Model
                     $"{ThicknessMin:0}–{ThicknessMax:0} мм."));
             }
 
+            //TODO: RSDN
             if (_holeDiameterd < HoleDiameterMin || _holeDiameterd > HoleDiameterMax)
             {
                 errors.Add(new ValidationError(
                     ParameterId.HoleDiameterd,
-                    //TODO: RSDN +
                     $"Диаметр отверстия d должен быть в диапазоне " +
                     $"{HoleDiameterMin:0}–{HoleDiameterMax:0} мм."));
             }
 
+            //TODO: RSDN
             if (_chamferRadiusR < ChamferRadiusMin || _chamferRadiusR > ChamferRadiusMax)
             {
                 errors.Add(new ValidationError(
                     ParameterId.ChamferRadiusR,
-                    //TODO: RSDN +
                     $"Радиус скругления фаски R должен быть в диапазоне " +
                     $"{ChamferRadiusMin:0}–{ChamferRadiusMax:0} мм."));
             }
@@ -208,7 +207,6 @@ namespace WeightPlatePluginCore.Model
                 if (!isRecessRadiusWithinDiameters)
                 {
                     string message =
-                        //TODO: RSDN +
                         "Радиус внутреннего углубления L " +
                         "должен удовлетворять условию d < 2L < D " +
                         $"(то есть L должен быть в диапазоне " +
@@ -223,6 +221,7 @@ namespace WeightPlatePluginCore.Model
             // 0 < G < T
             if (_recessDepthG > 0 && _thicknessT > 0)
             {
+                //TODO: RSDN
                 bool isRecessDepthInRange = _recessDepthG > 0 && _recessDepthG < _thicknessT;
 
                 if (!isRecessDepthInRange)

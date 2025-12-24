@@ -38,6 +38,7 @@ namespace WeightPlatePlugin.Wrapper
         /// </summary>
         public void Build(Parameters parameters)
         {
+            //TODO: RSDN
             _parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
 
             // 1. Подключаемся к KOMPAS и создаём новый документ
@@ -186,6 +187,7 @@ namespace WeightPlatePlugin.Wrapper
         {
             return string.Format(
                 CultureInfo.InvariantCulture,
+
                 "WeightPlate_D{0:0}_T{1:0}_d{2:0}_R{3:0}_L{4:0}_G{5:0}_{6:yyyyMMdd_HHmmss_fff}.m3d",
                 p.OuterDiameterD,
                 p.ThicknessT,
@@ -196,6 +198,7 @@ namespace WeightPlatePlugin.Wrapper
                 DateTime.Now);
         }
 
+        //TODO: RSDN
         private static string GetModelsDirectory()
         {
             var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);

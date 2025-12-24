@@ -8,6 +8,7 @@
         /// <summary>
         /// Создаёт новый объект ошибки валидации параметра.
         /// </summary>
+        /// //TODO: RSDN
         /// <param name="parameter">Идентификатор параметра, к которому относится ошибка.</param>
         /// <param name="message">Текст сообщения об ошибке.</param>
         public ValidationError(ParameterId parameter, string message)

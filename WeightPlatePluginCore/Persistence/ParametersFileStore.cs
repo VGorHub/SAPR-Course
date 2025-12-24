@@ -12,8 +12,10 @@ namespace WeightPlatePluginCore.Persistence
     /// </summary>
     public sealed class ParametersFileStore
     {
+        //TODO: RSDN
         private readonly string _filePath;
 
+        //TODO: RSDN
         public ParametersFileStore(string filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath))
@@ -102,6 +104,7 @@ namespace WeightPlatePluginCore.Persistence
         /// </summary>
         private sealed class ParametersDto
         {
+            //TODO: XML
             public double OuterDiameterD { get; set; }
 
             public double ThicknessT { get; set; }

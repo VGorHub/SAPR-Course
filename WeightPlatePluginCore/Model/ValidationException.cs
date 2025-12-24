@@ -12,6 +12,7 @@ namespace WeightPlatePluginCore.Model
         /// <summary>
         /// Создаёт исключение валидации на основе списка ошибок.
         /// </summary>
+        /// //TODO: RSDN
         /// <param name="errors">Список ошибок валидации. Может быть пустым, но не равным null.</param>
         public ValidationException(List<ValidationError> errors)
             : base(errors != null && errors.Count > 0 ? errors[0].Message : string.Empty)
