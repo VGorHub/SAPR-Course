@@ -63,6 +63,26 @@ namespace WeightPlatePluginCore.Presets
                 recessRadiusL: 60,
                 recessDepthG: 8),
 
+            Create(
+                WeightPlatePresetId.Min,
+                "Минимальный (Ø100)",
+                outerDiameterD: 100,
+                thicknessT: 10,
+                holeDiameterd: 26,
+                chamferRadiusR: 2,
+                recessRadiusL: 14,
+                recessDepthG: 1),
+
+            Create(
+                WeightPlatePresetId.Max,
+                "Максимальный (Ø500)",
+                outerDiameterD: 500,
+                thicknessT: 50,
+                holeDiameterd: 51,
+                chamferRadiusR: 10,
+                recessRadiusL: 249,
+                recessDepthG: 24),
+
             new WeightPlatePreset(
                 WeightPlatePresetId.Custom,
                 "Пользовательский",
