@@ -38,8 +38,13 @@ namespace WeightPlatePlugin.Wrapper
         /// </summary>
         public void Build(Parameters parameters)
         {
-            //TODO: RSDN
-            _parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
+            //TODO: RSDN +
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            _parameters = parameters;
 
             // 1. Подключаемся к KOMPAS и создаём новый документ
             _wrapper.AttachOrRunCAD();
@@ -198,12 +203,20 @@ namespace WeightPlatePlugin.Wrapper
                 DateTime.Now);
         }
 
-        //TODO: RSDN
+        //TODO: RSDN +
+        /// <summary>
+        /// Возвращает путь к каталогу, в который сохраняются модели.
+        /// </summary>
         private static string GetModelsDirectory()
         {
-            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var directory = Path.Combine(documents, "WeightPlatePlugin", "Models");
+            var documents = Environment.GetFolderPath(
+                Environment.SpecialFolder.MyDocuments);
+
+            var directory = Path.Combine(
+                documents, "WeightPlatePlugin", "Models");
+
             Directory.CreateDirectory(directory);
+
             return directory;
         }
 

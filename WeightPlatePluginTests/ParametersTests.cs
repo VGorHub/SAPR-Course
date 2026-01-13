@@ -7,103 +7,130 @@ namespace WeightPlatePlugin.Tests
 
     /// <summary>
     /// Набор тестов для класса <see cref="Parameters"/>.
-    /// Проверяет корректность валидации параметров диска и условия взаимозависимости между параметрами.
+    /// Проверяет корректность валидации параметров диска 
+    /// и условия взаимозависимости между параметрами.
     /// </summary>
     [TestFixture]
     public class ParametersTests
     {
-        //TODO: refactor
-        private Parameters CreateValidParameters()
+        //TODO: refactor +
+        private static Parameters CreateValidParameters()
         {
             var parameters = new Parameters();
+
             parameters.SetOuterDiameterD(200);
             parameters.SetThicknessT(20);
             parameters.SetHoleDiameterd(30);
             parameters.SetChamferRadiusR(5);
             parameters.SetRecessRadiusL(50);
             parameters.SetRecessDepthG(5);
+
             return parameters;
         }
 
         [Test]
-        [Description("Проверка валидации при значении наружного диаметра D вне допустимого диапазона")]
+        [Description("Проверка валидации при значении наружного диаметра D " +
+                     "вне допустимого диапазона")]
         public void ValidateAll_OuterDiameter_OutOfRange_AddsError()
         {
             var parameters = CreateValidParameters();
             parameters.SetOuterDiameterD(-1);
 
-            var exception = Assert.Throws<ValidationException>(() => parameters.ValidateAll());
+            var exception = Assert.Throws<ValidationException>(
+                () => parameters.ValidateAll());
+
             Assert.IsNotNull(exception);
             Assert.IsFalse(exception.IsValid);
 
             Assert.That(exception.Errors, Has.Some.Matches<ValidationError>(
                 e => e.Parameter == ParameterId.OuterDiameterD &&
-                     e.Message.Contains("Наружный диаметр D должен быть в диапазоне 100–500 мм")));
+                     e.Message.Contains("Наружный диаметр D " +
+                                        "должен быть в диапазоне 100–500 мм")));
         }
 
         [Test]
-        [Description("Проверка валидации при значении толщины T вне допустимого диапазона")]
+        [Description("Проверка валидации при значении толщины T " +
+                     "вне допустимого диапазона")]
         public void ValidateAll_Thickness_OutOfRange_AddsError()
         {
             var parameters = CreateValidParameters();
             parameters.SetThicknessT(5);
 
-            var exception = Assert.Throws<ValidationException>(() => parameters.ValidateAll());
+            var exception = Assert.Throws<ValidationException>(
+                () => parameters.ValidateAll());
+
             Assert.That(exception.Errors, Has.Some.Matches<ValidationError>(
                 e => e.Parameter == ParameterId.ThicknessT &&
-                     e.Message.Contains("Толщина T должна быть в диапазоне 10–80 мм")));
+                     e.Message.Contains("Толщина T должна быть " +
+                                        "в диапазоне 10–80 мм")));
         }
 
         [Test]
-        [Description("Проверка валидации при значении диаметра отверстия d вне допустимого диапазона")]
+        [Description("Проверка валидации при значении диаметра отверстия d " +
+                     "вне допустимого диапазона")]
         public void ValidateAll_HoleDiameter_OutOfRange_AddsError()
         {
             var parameters = CreateValidParameters();
             parameters.SetHoleDiameterd(10);
 
-            var exception = Assert.Throws<ValidationException>(() => parameters.ValidateAll());
+            var exception = Assert.Throws<ValidationException>(
+                () => parameters.ValidateAll());
+
             Assert.That(exception.Errors, Has.Some.Matches<ValidationError>(
                 e => e.Parameter == ParameterId.HoleDiameterd &&
-                     e.Message.Contains("Диаметр отверстия d должен быть в диапазоне 26–51 мм")));
+                     e.Message.Contains("Диаметр отверстия d " +
+                                        "должен быть в диапазоне 26–51 мм")));
         }
 
         [Test]
-        [Description("Проверка валидации при значении радиуса скругления фаски R вне допустимого диапазона")]
+        [Description("Проверка валидации при значении радиуса скругления фаски R " +
+                     "вне допустимого диапазона")]
         public void ValidateAll_ChamferRadius_OutOfRange_AddsError()
         {
             var parameters = CreateValidParameters();
             parameters.SetChamferRadiusR(1);
 
-            var exception = Assert.Throws<ValidationException>(() => parameters.ValidateAll());
+            var exception = Assert.Throws<ValidationException>(
+                () => parameters.ValidateAll());
+
             Assert.That(exception.Errors, Has.Some.Matches<ValidationError>(
                 e => e.Parameter == ParameterId.ChamferRadiusR &&
-                     e.Message.Contains("Радиус скругления фаски R должен быть в диапазоне 2–10 мм")));
+                     e.Message.Contains("Радиус скругления фаски R " +
+                                        "должен быть в диапазоне 2–10 мм")));
         }
 
         [Test]
-        [Description("Проверка валидации при неположительном значении радиуса внутреннего углубления L")]
+        [Description("Проверка валидации при неположительном значении радиуса " +
+                     "внутреннего углубления L")]
         public void ValidateAll_RecessRadius_NonPositive_AddsError()
         {
             var parameters = CreateValidParameters();
             parameters.SetRecessRadiusL(0);
 
-            var exception = Assert.Throws<ValidationException>(() => parameters.ValidateAll());
+            var exception = Assert.Throws<ValidationException>(
+                () => parameters.ValidateAll());
+
             Assert.That(exception.Errors, Has.Some.Matches<ValidationError>(
                 e => e.Parameter == ParameterId.RecessRadiusL &&
-                     e.Message.Contains("Радиус внутреннего углубления L должен быть больше 0")));
+                     e.Message.Contains("Радиус внутреннего углубления L " +
+                                        "должен быть больше 0")));
         }
 
         [Test]
-        [Description("Проверка валидации при неположительном значении глубины внутреннего углубления G")]
+        [Description("Проверка валидации при неположительном значении " +
+                     "глубины внутреннего углубления G")]
         public void ValidateAll_RecessDepth_NonPositive_AddsError()
         {
             var parameters = CreateValidParameters();
             parameters.SetRecessDepthG(0);
 
-            var exception = Assert.Throws<ValidationException>(() => parameters.ValidateAll());
+            var exception = Assert.Throws<ValidationException>(
+                () => parameters.ValidateAll());
+
             Assert.That(exception.Errors, Has.Some.Matches<ValidationError>(
                 e => e.Parameter == ParameterId.RecessDepthG &&
-                     e.Message.Contains("Глубина внутреннего углубления G должна быть больше 0")));
+                     e.Message.Contains("Глубина внутреннего углубления G " +
+                                        "должна быть больше 0")));
         }
 
         [Test]
@@ -113,7 +140,8 @@ namespace WeightPlatePlugin.Tests
             var parameters = CreateValidParameters();
             parameters.SetThicknessT(30);
 
-            var exception = Assert.Throws<ValidationException>(() => parameters.ValidateAll());
+            var exception = Assert.Throws<ValidationException>(
+                () => parameters.ValidateAll());
 
             Assert.That(exception.Errors, Has.Some.Matches<ValidationError>(
                 e => e.Parameter == ParameterId.ThicknessT &&
@@ -131,7 +159,8 @@ namespace WeightPlatePlugin.Tests
 
             parameters.SetHoleDiameterd(220);
 
-            var exception = Assert.Throws<ValidationException>(() => parameters.ValidateAll());
+            var exception = Assert.Throws<ValidationException>(
+                () => parameters.ValidateAll());
 
             Assert.That(exception.Errors, Has.Some.Matches<ValidationError>(
                 e => e.Parameter == ParameterId.HoleDiameterd &&
@@ -150,7 +179,8 @@ namespace WeightPlatePlugin.Tests
             parameters.SetHoleDiameterd(30);
             parameters.SetRecessRadiusL(10);
 
-            var exception = Assert.Throws<ValidationException>(() => parameters.ValidateAll());
+            var exception = Assert.Throws<ValidationException>(
+                () => parameters.ValidateAll());
 
             string expectedMessagePart = "должен удовлетворять условию d < 2L < D";
 
@@ -173,7 +203,8 @@ namespace WeightPlatePlugin.Tests
             parameters.SetThicknessT(20);
             parameters.SetRecessDepthG(25);
 
-            var exception = Assert.Throws<ValidationException>(() => parameters.ValidateAll());
+            var exception = Assert.Throws<ValidationException>(
+                () => parameters.ValidateAll());
 
             Assert.That(exception.Errors, Has.Some.Matches<ValidationError>(
                 e => e.Parameter == ParameterId.RecessDepthG &&
@@ -184,7 +215,7 @@ namespace WeightPlatePlugin.Tests
         }
 
         [Test]
-        [Description("Валидные параметры: ValidateAll не должен бросать исключение (в т.ч. 0 < G < T)")]
+        [Description("Валидные параметры: ValidateAll не должен бросать исключение ")]
         public void ValidateAll_ValidParameters_DoesNotThrow()
         {
             var parameters = CreateValidParameters();

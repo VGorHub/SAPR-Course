@@ -12,15 +12,29 @@ namespace WeightPlatePluginCore.Persistence
     /// </summary>
     public sealed class ParametersFileStore
     {
-        //TODO: RSDN
+        //TODO: RSDN +
+        /// <summary>
+        /// Полный путь к файлу хранения параметров.
+        /// </summary>
         private readonly string _filePath;
 
-        //TODO: RSDN
+        //TODO: RSDN +
+        /// <summary>
+        /// Инициализирует файловое хранилище параметров.
+        /// </summary>
+        /// <param name="filePath">
+        /// Путь к файлу, используемому для сохранения и загрузки параметров.
+        /// </param>
+        /// <exception cref="ArgumentException">
+        /// Выбрасывается, если <paramref name="filePath"/> не задан или содержит
+        /// только пробельные символы.
+        /// </exception>
         public ParametersFileStore(string filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath))
             {
-                throw new ArgumentException("Путь к файлу не задан.", nameof(filePath));
+                throw new ArgumentException("Путь к файлу не задан.", 
+                    nameof(filePath));
             }
 
             _filePath = filePath;
@@ -104,17 +118,35 @@ namespace WeightPlatePluginCore.Persistence
         /// </summary>
         private sealed class ParametersDto
         {
-            //TODO: XML
+            //TODO: XML +
+            /// <summary>
+            /// Наружный диаметр D, мм.
+            /// </summary>
             public double OuterDiameterD { get; set; }
 
+            /// <summary>
+            /// Толщина T, мм.
+            /// </summary>
             public double ThicknessT { get; set; }
 
+            /// <summary>
+            /// Диаметр отверстия d, мм.
+            /// </summary>
             public double HoleDiameterd { get; set; }
 
+            /// <summary>
+            /// Радиус фаски/скругления R, мм.
+            /// </summary>
             public double ChamferRadiusR { get; set; }
 
+            /// <summary>
+            /// Радиус внутреннего углубления L, мм.
+            /// </summary>
             public double RecessRadiusL { get; set; }
 
+            /// <summary>
+            /// Глубина внутреннего углубления G, мм.
+            /// </summary>
             public double RecessDepthG { get; set; }
 
             public static ParametersDto From(Parameters p)

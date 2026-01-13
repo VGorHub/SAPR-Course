@@ -126,8 +126,9 @@ namespace WeightPlatePluginCore.Model
             var errors = new List<ValidationError>();
 
             // --- Диапазоны по ТЗ (простые, без зависимостей) ---
-            //TODO: RSDN
-            if (_outerDiameterD < OuterDiameterMin || _outerDiameterD > OuterDiameterMax)
+            //TODO: RSDN +
+            if (_outerDiameterD < OuterDiameterMin ||
+                _outerDiameterD > OuterDiameterMax)
             {
                 errors.Add(new ValidationError(
                     ParameterId.OuterDiameterD,
@@ -143,8 +144,9 @@ namespace WeightPlatePluginCore.Model
                     $"{ThicknessMin:0}–{ThicknessMax:0} мм."));
             }
 
-            //TODO: RSDN
-            if (_holeDiameterd < HoleDiameterMin || _holeDiameterd > HoleDiameterMax)
+            //TODO: RSDN +
+            if (_holeDiameterd < HoleDiameterMin ||
+                _holeDiameterd > HoleDiameterMax)
             {
                 errors.Add(new ValidationError(
                     ParameterId.HoleDiameterd,
@@ -152,8 +154,9 @@ namespace WeightPlatePluginCore.Model
                     $"{HoleDiameterMin:0}–{HoleDiameterMax:0} мм."));
             }
 
-            //TODO: RSDN
-            if (_chamferRadiusR < ChamferRadiusMin || _chamferRadiusR > ChamferRadiusMax)
+            //TODO: RSDN +
+            if (_chamferRadiusR < ChamferRadiusMin || 
+                _chamferRadiusR > ChamferRadiusMax)
             {
                 errors.Add(new ValidationError(
                     ParameterId.ChamferRadiusR,
@@ -221,8 +224,9 @@ namespace WeightPlatePluginCore.Model
             // 0 < G < T
             if (_recessDepthG > 0 && _thicknessT > 0)
             {
-                //TODO: RSDN
-                bool isRecessDepthInRange = _recessDepthG > 0 && _recessDepthG < _thicknessT;
+                //TODO: RSDN +
+                bool isRecessDepthInRange = _recessDepthG > 0 &&
+                                            _recessDepthG < _thicknessT;
 
                 if (!isRecessDepthInRange)
                 {

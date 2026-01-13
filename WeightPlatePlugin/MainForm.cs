@@ -23,23 +23,24 @@ namespace WeightPlatePlugin
         /// </summary>
         private readonly ErrorProvider _errorProvider = new ErrorProvider();
 
+        //TODO: RSDN +
         /// <summary>
-        /// //TODO: RSDN
-        /// Словарь для связи идентификаторов параметров с соответствующими текстовыми полями ввода.
-        /// Обеспечивает доступ к элементам управления для отображения ошибок валидации.
+        /// Словарь: идентификатор параметра → соответствующее поле ввода.
+        /// Используется для подсветки и вывода ошибок валидации в UI.
         /// </summary>
         private readonly Dictionary<ParameterId, TextBox> _parameterInputs;
 
         /// <summary>
-        /// Модель параметров диска, содержащая текущие значения всех введенных пользователем параметров.
+        /// Модель параметров диска.
+        /// Cодержит текущие значения всех введенных пользователем параметров.
         /// Обеспечивает валидацию и управление значениями параметров.
         /// </summary>
         private readonly Parameters _parameters = new Parameters();
 
+        //TODO: RSDN +
         /// <summary>
-        /// //TODO: RSDN
-        /// Построитель 3D-модели диска, использующий API КОМПАС-3D для создания геометрической модели
-        /// на основе валидных параметров.
+        /// Построитель 3D-модели, использующий API КОМПАС-3D.
+        /// Создаёт геометрию по валидным параметрам.
         /// </summary>
         private readonly Builder _builder;
 
@@ -80,15 +81,16 @@ namespace WeightPlatePlugin
             }
 
             _errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
-            
+
             _parametersStore = new ParametersFileStore(GetUserParametersFilePath());
 
             InitializePresetComboBox();
 
             if (!TryLoadUserParameters())
             {
-                //TODO: RSDN
-                ApplyPreset(WeightPlatePresetCatalog.GetById(WeightPlatePresetCatalog.DefaultPresetId));
+                //TODO: RSDN +
+                ApplyPreset(WeightPlatePresetCatalog.GetById(
+                    WeightPlatePresetCatalog.DefaultPresetId));
             }
 
             FormClosing += WeightPlatePlugin_FormClosing;
@@ -114,10 +116,16 @@ namespace WeightPlatePlugin
         /// </summary>
         private void textBox_Validating(object sender, CancelEventArgs e)
         {
-            if (sender is not TextBox textBox || textBox.Tag is not ParameterId parameterId)
+            if (sender is not TextBox textBox)
             {
                 return;
             }
+
+            if (textBox.Tag is not ParameterId parameterId)
+            {
+                return;
+            }
+
 
             if (!TryParseDouble(textBox.Text, out var value))
             {
@@ -204,25 +212,43 @@ namespace WeightPlatePlugin
         {
             switch (parameterId)
             {
-                //TODO: {}
+                //TODO: {} +
                 case ParameterId.OuterDiameterD:
+                {
                     _parameters.SetOuterDiameterD(value);
                     break;
+                }
+
                 case ParameterId.ThicknessT:
+                {
                     _parameters.SetThicknessT(value);
                     break;
+                }
+
                 case ParameterId.HoleDiameterd:
+                {
                     _parameters.SetHoleDiameterd(value);
                     break;
+                }
+
                 case ParameterId.ChamferRadiusR:
+                {
                     _parameters.SetChamferRadiusR(value);
                     break;
+                }
+
                 case ParameterId.RecessRadiusL:
+                {
                     _parameters.SetRecessRadiusL(value);
                     break;
+                }
+
                 case ParameterId.RecessDepthG:
+                {
                     _parameters.SetRecessDepthG(value);
-                    break;
+                     break;
+                }
+
                 default:
                     throw new ArgumentOutOfRangeException(
                         nameof(parameterId),
@@ -271,8 +297,9 @@ namespace WeightPlatePlugin
         /// </summary>
         private void ResetToDefaults()
         {
-            //TODO: RSDN
-            ApplyPreset(WeightPlatePresetCatalog.GetById(WeightPlatePresetCatalog.DefaultPresetId));
+            //TODO: RSDN +
+            ApplyPreset(WeightPlatePresetCatalog.GetById(
+                WeightPlatePresetCatalog.DefaultPresetId));
         }
 
 
@@ -314,9 +341,11 @@ namespace WeightPlatePlugin
                 {
                     presetComboBox.Items.Add(presets[i]);
                 }
-                //TODO: RSDN
-                presetComboBox.SelectedIndexChanged -= comboBoxPreset_SelectedIndexChanged;
-                presetComboBox.SelectedIndexChanged += comboBoxPreset_SelectedIndexChanged;
+                //TODO: RSDN +
+                presetComboBox.SelectedIndexChanged -=
+                    comboBoxPreset_SelectedIndexChanged;
+                presetComboBox.SelectedIndexChanged +=
+                    comboBoxPreset_SelectedIndexChanged;
             }
             finally
             {
@@ -455,9 +484,14 @@ namespace WeightPlatePlugin
         /// <returns>Полный путь к файлу пользовательских параметров.</returns>
         private static string GetUserParametersFilePath()
         {
-            //TODO: RSDN
-            var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            return Path.Combine(appData, "WeightPlatePlugin", "user-parameters.json");
+            //TODO: RSDN +
+            var appData = Environment.GetFolderPath(
+                Environment.SpecialFolder.ApplicationData);
+
+            return Path.Combine(
+                appData,
+                "WeightPlatePlugin",
+                "user-parameters.json");
         }
 
         /// <summary>
@@ -510,7 +544,8 @@ namespace WeightPlatePlugin
             }
             catch
             {
-                // Игнорируем 
+                // Сохранение параметров не должно блокировать работу UI.
+                // При ошибке записи просто продолжаем без падения приложения.
             }
         }
 

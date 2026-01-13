@@ -376,15 +376,25 @@ namespace WeightPlatePlugin.Wrapper
                 throw new InvalidOperationException(
                     "Часть не инициализирована. Вызови CreateDocument3D().");
 
-            //TODO: RSDN
-            var basePlane = (ksEntity)_topPart.GetDefaultEntity((short)Obj3dType.o3d_planeXOY)
-                           ?? throw new InvalidOperationException(
-                               "Не удалось получить базовую плоскость XOY.");
+            //TODO: RSDN +
+            var basePlane = (ksEntity)_topPart.GetDefaultEntity(
+                (short)Obj3dType.o3d_planeXOY);
 
-            var offsetPlaneEntity =
-                (ksEntity)_topPart.NewEntity((short)Obj3dType.o3d_planeOffset)
-                ?? throw new InvalidOperationException(
+            if (basePlane == null)
+            {
+                throw new InvalidOperationException(
+                    "Не удалось получить базовую плоскость XOY.");
+            }
+
+            var offsetPlaneEntity = (ksEntity)_topPart.NewEntity(
+                (short)Obj3dType.o3d_planeOffset);
+
+            if (offsetPlaneEntity == null)
+            {
+                throw new InvalidOperationException(
                     "Не удалось создать сущность o3d_planeOffset.");
+            }
+
 
             var offsetDef = (ksPlaneOffsetDefinition)offsetPlaneEntity.GetDefinition();
             offsetDef.SetPlane(basePlane);
@@ -393,10 +403,16 @@ namespace WeightPlatePlugin.Wrapper
 
             offsetPlaneEntity.Create();
 
-            var sketchEntity =
-                (ksEntity)_topPart.NewEntity((short)Obj3dType.o3d_sketch)
-                ?? throw new InvalidOperationException(
+            //TODO: RSDN +
+            var sketchEntity = (ksEntity)_topPart.NewEntity(
+                (short)Obj3dType.o3d_sketch);
+
+            if (sketchEntity == null)
+            {
+                throw new InvalidOperationException(
                     "Не удалось создать сущность o3d_sketch.");
+            }
+
 
             var sketchDef = (ksSketchDefinition)sketchEntity.GetDefinition();
             sketchDef.SetPlane(offsetPlaneEntity);
@@ -424,9 +440,10 @@ namespace WeightPlatePlugin.Wrapper
             }
             catch
             {
-                //TODO: ??
+                //TODO: ?? +
 
-                // Игнорируем
+                // При закрытии COM-документа возможны ошибки, если документ уже закрыт
+                // или COM-ссылка стала невалидной. Не валим приложение из-за Close().
             }
             finally
             {
@@ -460,8 +477,10 @@ namespace WeightPlatePlugin.Wrapper
             }
             catch
             {
-                //TODO: ??
-                // Игнорируем
+                //TODO: ?? +
+                // При освобождении COM-объекта возможны исключения, если ссылка
+                // уже освобождена или объект находится в некорректном состоянии.
+                // Игнорируем, чтобы гарантировать очистку остальных ресурсов.
             }
         }
 

@@ -13,211 +13,337 @@ namespace WeightPlatePluginTests
     [TestFixture]
     public sealed class ParametersFileStoreTests
     {
-        //TODO: XML
-        private string _tempDirectory;
-        private string _filePath;
-
-        [SetUp]
-        public void SetUp()
+        ///
+        /// <summary>
+        /// Создаёт уникальную временную директорию для выполнения тестов.
+        /// </summary>
+        /// <returns>
+        /// Полный путь к созданной временной директории.
+        /// </returns>
+        private static string CreateTempDirectory()
         {
-            //TODO: refactor
-            _tempDirectory = Path.Combine(Path.GetTempPath(), "WeightPlatePluginTests", Guid.NewGuid().ToString("N"));
-            _filePath = Path.Combine(_tempDirectory, "user-parameters.json");
+            const string testRootDirectoryName = "WeightPlatePluginTests";
+
+            return Path.Combine(
+                Path.GetTempPath(),
+                testRootDirectoryName,
+                Guid.NewGuid().ToString("N"));
         }
 
-        [TearDown]
-        public void TearDown()
+
+        /// <summary>
+        /// Формирует путь к файлу параметров внутри указанной директории.
+        /// </summary>
+        /// <param name="directory">
+        /// Путь к директории, в которой должен располагаться файл параметров.
+        /// </param>
+        /// <returns>
+        /// Полный путь к файлу параметров.
+        /// </returns>
+        private static string CreateParametersFilePath(string directory)
         {
-            try
-            {
-                if (Directory.Exists(_tempDirectory))
-                {
-                    Directory.Delete(_tempDirectory, recursive: true);
-                }
-            }
-            catch
-            {
-                //TODO: ??
-                // Игнорируем: тесты не должны падать из-за проблем с очисткой временных файлов
-            }
+            const string parametersFileName = "user-parameters.json";
+
+            return Path.Combine(directory, parametersFileName);
         }
 
         [Test]
-        //TODO: RSDN
-        [Description("Проверяет, что конструктор ParametersFileStore выбрасывает исключение при пустом пути к файлу.")]
+        //TODO: RSDN +
+        [Description("Проверяет, что конструктор ParametersFileStore " +
+            "выбрасывает исключение при пустом пути к файлу.")]
         public void Ctor_WhenFilePathIsEmpty_ThrowsArgumentException()
         {
             Assert.Throws<ArgumentException>(() => new ParametersFileStore("  "));
         }
 
         [Test]
-        //TODO: RSDN
-        [Description("Проверяет, что TryLoad возвращает false и null-параметры, если файл отсутствует.")]
+        //TODO: RSDN +
+        [Description("Проверяет, что TryLoad возвращает false " +
+            "и null-параметры, если файл отсутствует.")]
         public void TryLoad_WhenFileDoesNotExist_ReturnsFalse()
         {
-            var store = new ParametersFileStore(_filePath);
+            var temporaryDirectoryPath = CreateTempDirectory();
+            var parametersFilePath = CreateParametersFilePath(temporaryDirectoryPath);
 
-            var loaded = store.TryLoad(out var parameters);
+            try
+            {
+                var store = new ParametersFileStore(parametersFilePath);
 
-            Assert.That(loaded, Is.False);
-            Assert.That(parameters, Is.Null);
+                var loaded = store.TryLoad(out var parameters);
+
+                Assert.That(loaded, Is.False);
+                Assert.That(parameters, Is.Null);
+            }
+            finally
+            {
+                if (Directory.Exists(temporaryDirectoryPath))
+                {
+                    Directory.Delete(temporaryDirectoryPath, recursive: true);
+                }
+            }
+            
         }
 
         [Test]
-        //TODO: RSDN
-        [Description("Проверяет, что Save создаёт директорию и файл, если они отсутствуют.")]
+        //TODO: RSDN +
+        [Description("Проверяет, что Save создаёт директорию и файл, " +
+            "если они отсутствуют.")]
         public void Save_WhenDirectoryDoesNotExist_CreatesDirectoryAndFile()
         {
-            var store = new ParametersFileStore(_filePath);
+            var temporaryDirectoryPath = CreateTempDirectory();
+            var parametersFilePath = CreateParametersFilePath(temporaryDirectoryPath);
 
-            var p = CreateValidParameters();
+            try
+            {
+                var store = new ParametersFileStore(parametersFilePath);
 
-            Assert.That(Directory.Exists(_tempDirectory), Is.False);
-            Assert.That(File.Exists(_filePath), Is.False);
+                var p = CreateValidParameters();
 
-            store.Save(p);
+                Assert.That(Directory.Exists(temporaryDirectoryPath), Is.False);
+                Assert.That(File.Exists(parametersFilePath), Is.False);
 
-            Assert.That(Directory.Exists(_tempDirectory), Is.True);
-            Assert.That(File.Exists(_filePath), Is.True);
-            Assert.That(new FileInfo(_filePath).Length, Is.GreaterThan(0));
+                store.Save(p);
+
+                Assert.That(Directory.Exists(temporaryDirectoryPath), Is.True);
+                Assert.That(File.Exists(parametersFilePath), Is.True);
+                Assert.That(new FileInfo(parametersFilePath).Length, Is.GreaterThan(0));
+            }
+            finally
+            {
+                if (Directory.Exists(temporaryDirectoryPath))
+                {
+                    Directory.Delete(temporaryDirectoryPath, recursive: true);
+                }
+            }
         }
 
         [Test]
-        //TODO: RSDN
-        [Description("Проверяет, что Save выбрасывает исключение при передаче null параметров.")]
+        //TODO: RSDN +
+        [Description("Проверяет, что Save выбрасывает исключение при передаче "
+            + "null-параметров.")]
         public void Save_WhenParametersIsNull_ThrowsArgumentNullException()
         {
-            var store = new ParametersFileStore(_filePath);
+            var temporaryDirectoryPath = CreateTempDirectory();
+            var parametersFilePath = CreateParametersFilePath(temporaryDirectoryPath);
 
-            Assert.Throws<ArgumentNullException>(() => store.Save(null));
+            try
+            {
+                var store = new ParametersFileStore(parametersFilePath);
+
+                Assert.Throws<ArgumentNullException>(() => store.Save(null));
+            }
+            finally
+            {
+                if (Directory.Exists(temporaryDirectoryPath))
+                {
+                    Directory.Delete(temporaryDirectoryPath, recursive: true);
+                }
+            }
         }
 
         [Test]
-        //TODO: RSDN
-        [Description("Проверяет, что Save не сохраняет невалидные параметры и выбрасывает исключение валидации.")]
+        //TODO: RSDN +
+        [Description("Проверяет, что Save не сохраняет невалидные параметры " +
+            "и выбрасывает исключение валидации.")]
         public void Save_WhenParametersAreInvalid_ThrowsValidationException()
         {
-            var store = new ParametersFileStore(_filePath);
+            var temporaryDirectoryPath = CreateTempDirectory();
+            var parametersFilePath = CreateParametersFilePath(temporaryDirectoryPath);
 
-            var invalid = CreateInvalidParameters();
+            try
+            {
+                var store = new ParametersFileStore(parametersFilePath);
 
-            Assert.Throws<ValidationException>(() => store.Save(invalid));
-            Assert.That(File.Exists(_filePath), Is.False);
+                var invalid = CreateInvalidParameters();
+
+                Assert.Throws<ValidationException>(() => store.Save(invalid));
+                Assert.That(File.Exists(parametersFilePath), Is.False);
+            }
+            finally
+            {
+                if (Directory.Exists(temporaryDirectoryPath))
+                {
+                    Directory.Delete(temporaryDirectoryPath, recursive: true);
+                }
+            }
         }
 
         [Test]
-        //TODO: RSDN
-        [Description("Проверяет, что TryLoad возвращает false при повреждённом файле (некорректный JSON).")]
+        //TODO: RSDN +
+        [Description("Проверяет, что TryLoad возвращает false " +
+            "при повреждённом файле (некорректный JSON).")]
         public void TryLoad_WhenFileIsCorrupted_ReturnsFalse()
         {
-            Directory.CreateDirectory(_tempDirectory);
-            File.WriteAllText(_filePath, "{ this is not valid json }");
+            var temporaryDirectoryPath = CreateTempDirectory();
+            var parametersFilePath = CreateParametersFilePath(temporaryDirectoryPath);
 
-            var store = new ParametersFileStore(_filePath);
+            try
+            {
+                Directory.CreateDirectory(temporaryDirectoryPath);
+                File.WriteAllText(parametersFilePath, "{ this is not valid json }");
 
-            var loaded = store.TryLoad(out var parameters);
+                var store = new ParametersFileStore(parametersFilePath);
 
-            Assert.That(loaded, Is.False);
-            Assert.That(parameters, Is.Null);
+                var loaded = store.TryLoad(out var parameters);
+
+                Assert.That(loaded, Is.False);
+                Assert.That(parameters, Is.Null);
+            }
+            finally
+            {
+                if (Directory.Exists(temporaryDirectoryPath))
+                {
+                    Directory.Delete(temporaryDirectoryPath, recursive: true);
+                }
+            }
         }
 
         [Test]
-        //TODO: RSDN
-        [Description("Проверяет, что после Save можно выполнить TryLoad и получить эквивалентные значения параметров.")]
+        //TODO: RSDN +
+        [Description("Проверяет, что после Save можно выполнить TryLoad " +
+            "и получить эквивалентные значения параметров.")]
         public void Save_ThenTryLoad_RoundTripRestoresValues()
         {
-            var store = new ParametersFileStore(_filePath);
+            var temporaryDirectoryPath = CreateTempDirectory();
+            var parametersFilePath = CreateParametersFilePath(temporaryDirectoryPath);
 
-            var original = CreateValidParameters();
+            try
+            {
+                var store = new ParametersFileStore(parametersFilePath);
 
-            store.Save(original);
+                var original = CreateValidParameters();
 
-            var loadedOk = store.TryLoad(out var loaded);
+                store.Save(original);
 
-            Assert.That(loadedOk, Is.True);
-            Assert.That(loaded, Is.Not.Null);
+                var loadedOk = store.TryLoad(out var loaded);
 
-            Assert.That(loaded.OuterDiameterD, Is.EqualTo(original.OuterDiameterD));
-            Assert.That(loaded.ThicknessT, Is.EqualTo(original.ThicknessT));
-            Assert.That(loaded.HoleDiameterd, Is.EqualTo(original.HoleDiameterd));
-            Assert.That(loaded.ChamferRadiusR, Is.EqualTo(original.ChamferRadiusR));
-            Assert.That(loaded.RecessRadiusL, Is.EqualTo(original.RecessRadiusL));
-            Assert.That(loaded.RecessDepthG, Is.EqualTo(original.RecessDepthG));
+                Assert.That(loadedOk, Is.True);
+                Assert.That(loaded, Is.Not.Null);
+
+                Assert.That(loaded.OuterDiameterD, Is.EqualTo(original.OuterDiameterD));
+                Assert.That(loaded.ThicknessT, Is.EqualTo(original.ThicknessT));
+                Assert.That(loaded.HoleDiameterd, Is.EqualTo(original.HoleDiameterd));
+                Assert.That(loaded.ChamferRadiusR, Is.EqualTo(original.ChamferRadiusR));
+                Assert.That(loaded.RecessRadiusL, Is.EqualTo(original.RecessRadiusL));
+                Assert.That(loaded.RecessDepthG, Is.EqualTo(original.RecessDepthG));
+            }
+            finally
+            {
+                if (Directory.Exists(temporaryDirectoryPath))
+                {
+                    Directory.Delete(temporaryDirectoryPath, recursive: true);
+                }
+            }
         }
 
         [Test]
-        //TODO: RSDN
-        [Description("Проверяет ветку: если целевой файл уже существует, Save удаляет его перед перемещением temp-файла.")]
+        //TODO: RSDN +
+        [Description("Проверяет ветку: если целевой файл уже существует, " +
+            "Save удаляет его перед перемещением temp-файла.")]
         public void Save_WhenTargetFileAlreadyExists_DeletesOldFileAndOverwrites()
         {
-            var store = new ParametersFileStore(_filePath);
+            var temporaryDirectoryPath = CreateTempDirectory();
+            var parametersFilePath = CreateParametersFilePath(temporaryDirectoryPath);
 
-            Directory.CreateDirectory(_tempDirectory);
+            try
+            {
+                var store = new ParametersFileStore(parametersFilePath);
 
-            File.WriteAllText(_filePath, "OLD_CONTENT");
-            var oldInfo = new FileInfo(_filePath);
-            Assert.That(oldInfo.Length, Is.GreaterThan(0));
+                Directory.CreateDirectory(temporaryDirectoryPath);
 
-            var p = CreateValidParameters();
+                File.WriteAllText(parametersFilePath, "OLD_CONTENT");
+                var oldInfo = new FileInfo(parametersFilePath);
+                Assert.That(oldInfo.Length, Is.GreaterThan(0));
 
-            store.Save(p);
+                var p = CreateValidParameters();
 
-            Assert.That(File.Exists(_filePath), Is.True);
-            var newText = File.ReadAllText(_filePath);
-            Assert.That(newText, Does.Not.Contain("OLD_CONTENT"));
-            Assert.That(newText, Does.Contain("OuterDiameterD"));
+                store.Save(p);
+
+                Assert.That(File.Exists(parametersFilePath), Is.True);
+                var newText = File.ReadAllText(parametersFilePath);
+                Assert.That(newText, Does.Not.Contain("OLD_CONTENT"));
+                Assert.That(newText, Does.Contain("OuterDiameterD"));
+            }
+            finally
+            {
+                if (Directory.Exists(temporaryDirectoryPath))
+                {
+                    Directory.Delete(temporaryDirectoryPath, recursive: true);
+                }
+            }
+            
         }
 
 
         [Test]
-        //TODO: RSDN
-        [Description("Проверяет ветку: TryLoad возвращает false, если JSON валиден, но десериализация даёт null (json = 'null').")]
+        //TODO: RSDN +
+        [Description("Проверяет ветку: TryLoad возвращает false, если JSON валиден, " +
+            "но десериализация даёт null (json = 'null').")]
         public void TryLoad_WhenJsonIsNullLiteral_ReturnsFalse()
         {
-            Directory.CreateDirectory(_tempDirectory);
-            File.WriteAllText(_filePath, "null");
+            var temporaryDirectoryPath = CreateTempDirectory();
+            var parametersFilePath = CreateParametersFilePath(temporaryDirectoryPath);
 
-            var store = new ParametersFileStore(_filePath);
+            try
+            {
+                Directory.CreateDirectory(temporaryDirectoryPath);
+                File.WriteAllText(parametersFilePath, "null");
 
-            var loaded = store.TryLoad(out var parameters);
+                var store = new ParametersFileStore(parametersFilePath);
 
-            Assert.That(loaded, Is.False);
-            Assert.That(parameters, Is.Null);
+                var loaded = store.TryLoad(out var parameters);
+
+                Assert.That(loaded, Is.False);
+                Assert.That(parameters, Is.Null);
+            }
+            finally
+            {
+                if (Directory.Exists(temporaryDirectoryPath))
+                {
+                    Directory.Delete(temporaryDirectoryPath, recursive: true);
+                }
+            }
         }
 
-        //TODO: XML
+        //TODO: XML +
+        /// <summary>
+        /// Создаёт валидный набор параметров для тестов.
+        /// </summary>
         private static Parameters CreateValidParameters()
         {
-            //TODO: RSDN
-            var p = new Parameters();
+            //TODO: RSDN +
+            var parameter = new Parameters();
 
-            p.SetOuterDiameterD(450);
-            p.SetThicknessT(45);
-            p.SetHoleDiameterd(28);
-            p.SetChamferRadiusR(5);
-            p.SetRecessRadiusL(120);
-            p.SetRecessDepthG(15);
+            parameter.SetOuterDiameterD(450);
+            parameter.SetThicknessT(45);
+            parameter.SetHoleDiameterd(28);
+            parameter.SetChamferRadiusR(5);
+            parameter.SetRecessRadiusL(120);
+            parameter.SetRecessDepthG(15);
 
-            p.ValidateAll();
+            parameter.ValidateAll();
 
-            return p;
+            return parameter;
         }
 
-        //TODO: XML
+        //TODO: XML +
+        /// <summary>
+        /// Создаёт не валидный набор параметров для тестов.
+        /// </summary>
         private static Parameters CreateInvalidParameters()
         {
-            //TODO: RSDN
-            var p = new Parameters();
+            //TODO: RSDN +
+            var parameter = new Parameters();
 
-            p.SetOuterDiameterD(100);
-            p.SetThicknessT(50);
+            parameter.SetOuterDiameterD(100);
+            parameter.SetThicknessT(50);
 
-            p.SetHoleDiameterd(28);
-            p.SetChamferRadiusR(5);
-            p.SetRecessRadiusL(40);
-            p.SetRecessDepthG(5);
+            parameter.SetHoleDiameterd(28);
+            parameter.SetChamferRadiusR(5);
+            parameter.SetRecessRadiusL(40);
+            parameter.SetRecessDepthG(5);
 
-            return p;
+            return parameter;
         }
     }
 }
