@@ -376,7 +376,6 @@ namespace WeightPlatePlugin.Wrapper
                 throw new InvalidOperationException(
                     "Часть не инициализирована. Вызови CreateDocument3D().");
 
-            //TODO: RSDN +
             var basePlane = (ksEntity)_topPart.GetDefaultEntity(
                 (short)Obj3dType.o3d_planeXOY);
 
@@ -403,7 +402,6 @@ namespace WeightPlatePlugin.Wrapper
 
             offsetPlaneEntity.Create();
 
-            //TODO: RSDN +
             var sketchEntity = (ksEntity)_topPart.NewEntity(
                 (short)Obj3dType.o3d_sketch);
 
@@ -440,8 +438,6 @@ namespace WeightPlatePlugin.Wrapper
             }
             catch
             {
-                //TODO: ?? +
-
                 // При закрытии COM-документа возможны ошибки, если документ уже закрыт
                 // или COM-ссылка стала невалидной. Не валим приложение из-за Close().
             }
@@ -477,7 +473,6 @@ namespace WeightPlatePlugin.Wrapper
             }
             catch
             {
-                //TODO: ?? +
                 // При освобождении COM-объекта возможны исключения, если ссылка
                 // уже освобождена или объект находится в некорректном состоянии.
                 // Игнорируем, чтобы гарантировать очистку остальных ресурсов.

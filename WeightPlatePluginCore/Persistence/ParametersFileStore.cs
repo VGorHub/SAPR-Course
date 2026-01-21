@@ -12,13 +12,11 @@ namespace WeightPlatePluginCore.Persistence
     /// </summary>
     public sealed class ParametersFileStore
     {
-        //TODO: RSDN +
         /// <summary>
         /// Полный путь к файлу хранения параметров.
         /// </summary>
         private readonly string _filePath;
 
-        //TODO: RSDN +
         /// <summary>
         /// Инициализирует файловое хранилище параметров.
         /// </summary>
@@ -118,7 +116,6 @@ namespace WeightPlatePluginCore.Persistence
         /// </summary>
         private sealed class ParametersDto
         {
-            //TODO: XML +
             /// <summary>
             /// Наружный диаметр D, мм.
             /// </summary>
@@ -149,6 +146,7 @@ namespace WeightPlatePluginCore.Persistence
             /// </summary>
             public double RecessDepthG { get; set; }
 
+            //TODO: XML
             public static ParametersDto From(Parameters p)
             {
                 return new ParametersDto
@@ -162,6 +160,7 @@ namespace WeightPlatePluginCore.Persistence
                 };
             }
 
+            //TODO: XML
             public void ApplyTo(Parameters p)
             {
                 p.SetOuterDiameterD(OuterDiameterD);

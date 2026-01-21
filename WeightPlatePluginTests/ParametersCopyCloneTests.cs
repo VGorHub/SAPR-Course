@@ -12,7 +12,6 @@ namespace WeightPlatePlugin.Tests
     public sealed class ParametersCopyCloneTests
     {
         [Test]
-        //TODO: RSDN +
         [Description("Проверяет, что метод CopyFrom " +
             "выбрасывает исключение при передаче null.")]
         public void CopyFrom_WhenSourceIsNull_ThrowsArgumentNullException()
@@ -23,7 +22,6 @@ namespace WeightPlatePlugin.Tests
         }
 
         [Test]
-        //TODO: RSDN +
         [Description("Проверяет, что метод CopyFrom " +
             "корректно копирует все значения параметров.")]
         public void CopyFrom_CopiesAllValues()
@@ -55,7 +53,6 @@ namespace WeightPlatePlugin.Tests
         }
 
         [Test]
-        //TODO: RSDN +
         [Description("Проверяет, что метод Clone возвращает новый экземпляр" +
             " с идентичными значениями параметров.")]
         public void Clone_ReturnsNewInstanceWithSameValues()
@@ -80,7 +77,6 @@ namespace WeightPlatePlugin.Tests
         }
 
         [Test]
-        //TODO: RSDN +
         [Description("Проверяет, что изменения клона не влияют " +
             "на исходный объект параметров.")]
         public void Clone_IsIndependentFromSource()

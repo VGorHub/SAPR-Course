@@ -13,7 +13,7 @@ namespace WeightPlatePlugin.Tests
     [TestFixture]
     public class ParametersTests
     {
-        //TODO: refactor +
+        //TODO: XML
         private static Parameters CreateValidParameters()
         {
             var parameters = new Parameters();

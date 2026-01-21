@@ -23,7 +23,6 @@ namespace WeightPlatePlugin
         /// </summary>
         private readonly ErrorProvider _errorProvider = new ErrorProvider();
 
-        //TODO: RSDN +
         /// <summary>
         /// Словарь: идентификатор параметра → соответствующее поле ввода.
         /// Используется для подсветки и вывода ошибок валидации в UI.
@@ -37,7 +36,6 @@ namespace WeightPlatePlugin
         /// </summary>
         private readonly Parameters _parameters = new Parameters();
 
-        //TODO: RSDN +
         /// <summary>
         /// Построитель 3D-модели, использующий API КОМПАС-3D.
         /// Создаёт геометрию по валидным параметрам.
@@ -88,7 +86,6 @@ namespace WeightPlatePlugin
 
             if (!TryLoadUserParameters())
             {
-                //TODO: RSDN +
                 ApplyPreset(WeightPlatePresetCatalog.GetById(
                     WeightPlatePresetCatalog.DefaultPresetId));
             }
@@ -212,7 +209,6 @@ namespace WeightPlatePlugin
         {
             switch (parameterId)
             {
-                //TODO: {} +
                 case ParameterId.OuterDiameterD:
                 {
                     _parameters.SetOuterDiameterD(value);
@@ -249,6 +245,7 @@ namespace WeightPlatePlugin
                      break;
                 }
 
+                    //TODO: {}
                 default:
                     throw new ArgumentOutOfRangeException(
                         nameof(parameterId),
@@ -297,7 +294,6 @@ namespace WeightPlatePlugin
         /// </summary>
         private void ResetToDefaults()
         {
-            //TODO: RSDN +
             ApplyPreset(WeightPlatePresetCatalog.GetById(
                 WeightPlatePresetCatalog.DefaultPresetId));
         }
@@ -341,7 +337,6 @@ namespace WeightPlatePlugin
                 {
                     presetComboBox.Items.Add(presets[i]);
                 }
-                //TODO: RSDN +
                 presetComboBox.SelectedIndexChanged -=
                     comboBoxPreset_SelectedIndexChanged;
                 presetComboBox.SelectedIndexChanged +=
@@ -484,7 +479,6 @@ namespace WeightPlatePlugin
         /// <returns>Полный путь к файлу пользовательских параметров.</returns>
         private static string GetUserParametersFilePath()
         {
-            //TODO: RSDN +
             var appData = Environment.GetFolderPath(
                 Environment.SpecialFolder.ApplicationData);
 
