@@ -13,7 +13,19 @@ namespace WeightPlatePlugin.Tests
     [TestFixture]
     public class ParametersTests
     {
-        //TODO: XML
+        //TODO: XML+
+        /// <summary>
+        /// Создаёт экземпляр <see cref="Parameters"/> с валидным набором значений,
+        /// удовлетворяющим всем ограничениям и взаимосвязям параметров.
+        /// </summary>
+        /// <returns>
+        /// Корректно инициализированный объект <see cref="Parameters"/>,
+        /// пригодный для использования в тестах.
+        /// </returns>
+        /// <remarks>
+        /// Используется как базовая заготовка для модификации отдельных параметров
+        /// при проверке сценариев валидации.
+        /// </remarks>
         private static Parameters CreateValidParameters()
         {
             var parameters = new Parameters();

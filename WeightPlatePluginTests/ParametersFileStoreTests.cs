@@ -247,10 +247,10 @@ namespace WeightPlatePluginTests
                 var oldInfo = new FileInfo(parametersFilePath);
                 Assert.That(oldInfo.Length, Is.GreaterThan(0));
 
-                //TODO: RSDN
-                var p = CreateValidParameters();
+                //TODO: RSDN+
+                var parameter = CreateValidParameters();
 
-                store.Save(p);
+                store.Save(parameter);
 
                 Assert.That(File.Exists(parametersFilePath), Is.True);
                 var newText = File.ReadAllText(parametersFilePath);

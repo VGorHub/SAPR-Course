@@ -245,12 +245,14 @@ namespace WeightPlatePlugin
                      break;
                 }
 
-                    //TODO: {}
+                    //TODO: {} +
                 default:
+                {
                     throw new ArgumentOutOfRangeException(
-                        nameof(parameterId),
-                        parameterId,
-                        "Неизвестный параметр.");
+                    nameof(parameterId),
+                    parameterId,
+                    "Неизвестный параметр.");
+                }
             }
         }
 

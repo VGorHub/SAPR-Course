@@ -146,29 +146,53 @@ namespace WeightPlatePluginCore.Persistence
             /// </summary>
             public double RecessDepthG { get; set; }
 
-            //TODO: XML
-            public static ParametersDto From(Parameters p)
+            //TODO: XML +
+            /// <summary>
+            /// Создаёт DTO параметров на основе доменной модели <see cref="Parameters"/>.
+            /// </summary>
+            /// <param name="parameter">
+            /// Экземпляр доменной модели параметров.
+            /// </param>
+            /// <returns>
+            /// Объект <see cref="ParametersDto"/>, содержащий копию значений параметров.
+            /// </returns>
+            /// <exception cref="ArgumentNullException">
+            /// Выбрасывается, если <paramref name="parameter"/> равен <c>null</c>.
+            /// </exception>
+            public static ParametersDto From(Parameters parameter)
             {
                 return new ParametersDto
                 {
-                    OuterDiameterD = p.OuterDiameterD,
-                    ThicknessT = p.ThicknessT,
-                    HoleDiameterd = p.HoleDiameterd,
-                    ChamferRadiusR = p.ChamferRadiusR,
-                    RecessRadiusL = p.RecessRadiusL,
-                    RecessDepthG = p.RecessDepthG
+                    OuterDiameterD = parameter.OuterDiameterD,
+                    ThicknessT = parameter.ThicknessT,
+                    HoleDiameterd = parameter.HoleDiameterd,
+                    ChamferRadiusR = parameter.ChamferRadiusR,
+                    RecessRadiusL = parameter.RecessRadiusL,
+                    RecessDepthG = parameter.RecessDepthG
                 };
             }
 
-            //TODO: XML
-            public void ApplyTo(Parameters p)
+            //TODO: XML +
+            /// <summary>
+            /// Применяет значения DTO к указанной доменной модели <see cref="Parameters"/>.
+            /// </summary>
+            /// <param name="parameter">
+            /// Экземпляр доменной модели параметров, в который будут записаны значения.
+            /// </param>
+            /// <exception cref="ArgumentNullException">
+            /// Выбрасывается, если <paramref name="parameter"/> равен <c>null</c>.
+            /// </exception>
+            /// <remarks>
+            /// Использует сеттеры доменной модели для сохранения инвариантов и валидации.
+            /// </remarks>
+            public void ApplyTo(Parameters parameter)
             {
-                p.SetOuterDiameterD(OuterDiameterD);
-                p.SetThicknessT(ThicknessT);
-                p.SetHoleDiameterd(HoleDiameterd);
-                p.SetChamferRadiusR(ChamferRadiusR);
-                p.SetRecessRadiusL(RecessRadiusL);
-                p.SetRecessDepthG(RecessDepthG);
+                parameter.SetOuterDiameterD(OuterDiameterD);
+                parameter.SetThicknessT(ThicknessT);
+                parameter.SetHoleDiameterd(HoleDiameterd);
+                parameter.SetChamferRadiusR(ChamferRadiusR);
+                parameter.SetRecessRadiusL(RecessRadiusL);
+                parameter.SetRecessDepthG(RecessDepthG);
             }
         }
     }
