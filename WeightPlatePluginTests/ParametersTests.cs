@@ -13,7 +13,6 @@ namespace WeightPlatePlugin.Tests
     [TestFixture]
     public class ParametersTests
     {
-        //TODO: XML+
         /// <summary>
         /// Создаёт экземпляр <see cref="Parameters"/> с валидным набором значений,
         /// удовлетворяющим всем ограничениям и взаимосвязям параметров.

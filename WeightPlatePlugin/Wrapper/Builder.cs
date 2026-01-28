@@ -191,7 +191,6 @@ namespace WeightPlatePlugin.Wrapper
         {
             return string.Format(
                 CultureInfo.InvariantCulture,
-                //TODO: RSDN +
                 "WeightPlate_D{0:0}_T{1:0}_d{2:0}_R{3:0}_L{4:0}_G{5:0}_" +
                 "{6:yyyyMMdd_HHmmss_fff}.m3d",
                 p.OuterDiameterD,

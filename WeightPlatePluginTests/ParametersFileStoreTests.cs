@@ -246,8 +246,7 @@ namespace WeightPlatePluginTests
                 File.WriteAllText(parametersFilePath, "OLD_CONTENT");
                 var oldInfo = new FileInfo(parametersFilePath);
                 Assert.That(oldInfo.Length, Is.GreaterThan(0));
-
-                //TODO: RSDN+
+                
                 var parameter = CreateValidParameters();
 
                 store.Save(parameter);

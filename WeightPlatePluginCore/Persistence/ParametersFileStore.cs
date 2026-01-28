@@ -146,7 +146,6 @@ namespace WeightPlatePluginCore.Persistence
             /// </summary>
             public double RecessDepthG { get; set; }
 
-            //TODO: XML +
             /// <summary>
             /// Создаёт DTO параметров на основе доменной модели <see cref="Parameters"/>.
             /// </summary>
@@ -172,7 +171,6 @@ namespace WeightPlatePluginCore.Persistence
                 };
             }
 
-            //TODO: XML +
             /// <summary>
             /// Применяет значения DTO к указанной доменной модели <see cref="Parameters"/>.
             /// </summary>

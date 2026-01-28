@@ -245,7 +245,6 @@ namespace WeightPlatePlugin
                      break;
                 }
 
-                    //TODO: {} +
                 default:
                 {
                     throw new ArgumentOutOfRangeException(
